@@ -1,0 +1,6 @@
+.project
+.metadata
+bin/
+.settings/
+.externalToolBuilders/
+

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.1.0" localization="OSGI-INF/l10n/arduino" xmlns:ibm="http://www.ibm.com/xmlns/appservers/osgi/metatype/v1.0.0">
+
+  <OCD name="%arduino.service.name" description="%arduino.service.desc"
+       id="com.ibm.ws.arduino.arduino"
+       ibm:alias="arduino">
+    
+    <AD name="%arduino.ports" description="%arduino.ports.desc"  
+        id="ports" 
+        required="true" 
+        type="String">
+    </AD>
+
+    <AD name="%arduino.speed" description="%arduino.speed.desc"  
+        id="speed" 
+        required="false" 
+        type="String"    
+        default="1000000">
+    </AD>
+    
+    <AD name="%arduino.debug" description="%arduino.debug.desc"  
+        id="debug" 
+        required="false" 
+        type="String"    
+        default="0">
+    </AD>
+    
+  </OCD>
+
+  <Designate factoryPid="arduino">
+    <Object ocdref="com.ibm.ws.arduino.arduino"/>
+  </Designate>
+
+</metatype:MetaData>

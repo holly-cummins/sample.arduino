@@ -1,0 +1,10 @@
+Liberty	KEYWORD1
+begin	KEYWORD2
+update	KEYWORD2
+sramRead	KEYWORD2
+sramWrite	KEYWORD2
+invocable	KEYWORD2
+speed	KEYWORD2
+setReadTimeout	KEYWORD2
+call	KEYWORD2
+log	KEYWORD2

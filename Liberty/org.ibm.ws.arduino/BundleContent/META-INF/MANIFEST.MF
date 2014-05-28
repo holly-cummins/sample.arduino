@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.ibm.ws.arduino
+Bundle-SymbolicName: org.ibm.ws.arduino
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.ibm.ws.arduino.impl.Activator
+Import-Package: org.osgi.framework;version="[1.5,2)",
+ org.osgi.service.cm;version="[1.5,2)"
+Export-Package: com.ibm.ws.arduino,
+ com.ibm.ws.arduino.impl
+Bundle-ClassPath: .,
+ libs/purejavacomm-0.0.21.jar,
+ libs/jna-4.0.0.jar
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+
