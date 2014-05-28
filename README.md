@@ -28,7 +28,7 @@ Download the liberty-arduino-server jar file from the [github release page](http
 
 ```java -jar liberty-arduino-server-0.0.15.jar```
 
-Edit the config file ```wlp\usr\servers\myServer\server.xml```, look for the <usr_arduino> element, and update the ports value (presently "COM10") to match the serial port of your Arduino.
+Edit the config file ```wlp\usr\servers\myServer\server.xml```, look for the ```<usr_arduino>``` element, and update the ports value (presently "COM10") to match the serial port of your Arduino.
 
 ### Run the sample
 
