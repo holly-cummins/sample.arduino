@@ -1,20 +1,20 @@
 # The Liberty Profile Arduino Feature
 
-The Arduino Feature for the Liberty Profile enables interacting with Arduino microcontrollers from your Java EE application code running on Liberty. This enables building Internet of Things style systems which combine the features of the Liberty server with cheap and easy to use Arduino components for interacting with the real world.
+The Arduino Feature for the Liberty Profile enables interacting with Arduino microcontrollers from your Java EE application. This makes possible building Internet of Things style systems which combine the serverside features of Liberty with cheap and easy to use Arduino components for interacting with the real world.
 
-The Liberty Arduino feature provides a Java API which is designed in a way which makes it familiar and easy to use by anyone who has coded Arduino sketches. It uses a Firmata style protocol for comunicating with Arduinos, which may be directly connected to the Liberty server via USB connections, or connected wirelessly by using one of the many different types of Arduino wireless accessories.
+The Liberty Arduino feature provides a Java API which is designed in a way which makes it familiar and easy to use by anyone who has coded Arduino sketches. It uses a Firmata style protocol for comunicating between Liberty and Arduinos, which may be directly connected to the Liberty server via USB connections, or connected wirelessly by using any of the many different types of Arduino wireless accessories.
 
 ## Getting started
 
-If you haven't already got a Liberty runtime and the Arduino IDE installed then first install those. Get Liberty from [IBM's WASdev](https://developer.ibm.com/wasdev/downloads/liberty-profile-using-non-eclipse-environments/), and the Arduino IDE from the [Arduino website](http://arduino.cc/en/main/software) 
+If you haven't already got a Liberty runtime and the Arduino IDE installed then get those first. Get Liberty from [IBM's WASdev](https://developer.ibm.com/wasdev/downloads/liberty-profile-using-non-eclipse-environments/), and the Arduino IDE from the [Arduino website](http://arduino.cc/en/main/software) 
 
 The Liberty Arduino feature has two parts - a library for the Arduino IDE, and a feature for Liberty runtime.
 
 ### Install the Liberty library to the Arduino IDE
 
-Download the Arduino Liberty library to your local file system from: http://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/Arduino-liberty-library-0.0.15.zip
+Download the Arduino-liberty-library zip file to your local file system from the [github release page](http://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/Arduino-liberty-library-0.0.15.zip), and install it in the Arduino IDE - on the menu bar choose "Sketch -> Import Library -> Add Library..." and select library zip you just downloaded. 
 
-Install the Arduino library in the Arduino IDE - on the menu bar choose "Sketch -> Import Library -> Add Library..." and select library zip you just downloaded. You will need to then restart the Arduino IDE to pick up the new library. 
+You will need to then restart the Arduino IDE to pick up the new library. 
 
 ### Program an Arduino with a Liberty sketch
 
@@ -22,15 +22,13 @@ In the Arduino IDE program an Arduino with the Liberty basic example. In the Ard
 
 ### Install the Arduino Feature in Liberty
 
-The Arduino feature is available on the release page as an installable .esa file for manual installation of the feature, however there is also a pre-configured server download that includes the feature and a helloworld style sample application, and that is simplest way to get started.
+The Arduino feature is available on the release page as a .esa file for manual installation of the feature, however there is also a pre-configured server download that includes the feature and a helloworld style sample application, and that is simplest way to get started.
 
-Download the sample server from: https://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/liberty-arduino-server-0.0.15.jar 
-
-At a command prompt in your Liberty wlp directory use the java command to install the sample server:
+Download the liberty-arduino-server jar file from the [github release page](https://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/liberty-arduino-server-0.0.15.jar), and at a command prompt in your Liberty wlp directory use the java command to install the sample server:
 
 ```java -jar liberty-arduino-server-0.0.15.jar```
 
-Edit the config file ```wlp\usr\servers\myServer\server.xml``` look for the <usr_arduino> element and update the ports attribute value "COM10" to match the serial port of your Arduino.
+Edit the config file ```wlp\usr\servers\myServer\server.xml```, look for the <usr_arduino> element, and update the ports value (presently "COM10") to match the serial port of your Arduino.
 
 ### Run the sample
 
