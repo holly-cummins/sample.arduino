@@ -10,101 +10,37 @@ If you haven't already got a Liberty runtime and the Arduino IDE installed then 
 
 The Liberty Arduino feature has two parts - a library for the Arduino IDE, and a feature for Liberty runtime.
 
-### Install the Arduino library
+### Install the Liberty library to the Arduino IDE
 
 Download the Arduino Liberty library to your local file system from: http://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/Arduino-liberty-library-0.0.15.zip
 
 Install the Arduino library in the Arduino IDE - on the menu bar choose "Sketch -> Import Library -> Add Library..." and select library zip you just downloaded. You will need to then restart the Arduino IDE to pick up the new library. 
 
-### Install the Liberty Feature
-
-At a command prompt in your Liberty wlp directory use the featureManager command to install the Arduino feature:
-
-```bin\featuremanager install https://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/arduino-feature-0.0.15.esa```
-
-## A first app
-
-As a helloworld style first app we'll use the Liberty Arduino feature to switch on and off an LED on an Arduino from a JSP running in a webapp on Liberty.  
-
 ### Program an Arduino with a Liberty sketch
 
-In the Arduino IDE program an Arduino with the Liberty basic example. In the Arduino IDE menu bar choose "File -> Examples -> Liberty -> Basic", and then click the "Upload" button to upload the sketch to the Arduino.  
+In the Arduino IDE program an Arduino with the Liberty basic example. In the Arduino IDE menu bar choose "File -> Examples -> Liberty -> Basic", and then click the "Upload" button to upload the sketch to the Arduino. 
 
-### Liberty setup
+## Install the Arduino Feature in Liberty
 
-Use the following command in the Liberty wlp directory to create a server:
+The Arduino feature is available on the release page as an installable .esa file for manual installation of the feature, however there is also a pre-configured server download that includes the feature and a helloworld style sample application, and that is simplest way to get started.
 
-```bin\server create myServer```
+Download the sample server from: https://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/liberty-arduino-server-0.0.15.jar 
 
-Edit the config file ```wlp\usr\servers\myServer\server.xml``` and add the Arduino feature to the <featureManager> section and a <usr_arduino> element for your Arduino, updating the ports attribute value "COM10" to match the serial port of your Arduino:
+At a command prompt in your Liberty wlp directory use the java command to install the sample server:
 
-```xml
-<server description="new server">
+```java -jar liberty-arduino-server-0.0.15.jar```
 
-    <!-- Enable features -->
-    <featureManager>
-        <feature>jsp-2.2</feature>
-        <feature>usr:arduino-1.0</feature>
-    </featureManager>
+Edit the config file ```wlp\usr\servers\myServer\server.xml``` look for the <usr_arduino> element and update the ports attribute value "COM10" to match the serial port of your Arduino.
 
-    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
-    <httpEndpoint id="defaultHttpEndpoint"
-                  httpPort="9080"
-                  httpsPort="9443" />
-
-    <usr_arduino id="default" ports="COM10" />
-
-</server>
-```
-
-### The JSP application
-
-In the directory wlp\usr\servers\myServer\dropins create a new directory named helloworld.war and in there create a new file named index.jsp with the following contents:
-
-```html
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.ibm.ws.arduino.*" %>
-<%@ page import="static com.ibm.ws.arduino.Arduino.Level.LOW" %>
-<%@ page import="static com.ibm.ws.arduino.Arduino.Level.HIGH" %>
-<%@ page import="com.ibm.ws.arduino.Arduino.Mode" %>
-
-<html>
-  <body >
-
-    <h2>Liberty Arduino Demo - Helloworld</h2>
-
-     Refresh the page to switch on and off
-
-<%
-     Arduino arduino = ArduinoService.get();
-
-     int led = 13;    
-     arduino.pinMode(led, Mode.OUTPUT);
-
-     if (arduino.digitalRead(led) == LOW) {
-
-       arduino.digitalWrite(led, HIGH);
-       %><p><b>Light on!</b></p><%
-
-    } else {
-
-       arduino.digitalWrite(led, LOW);
-       %><p><b>Light off!</b></p><%
-
-    }
-%>
-  </body>
-</html>
-```
-
-### Test the application
+## Run the sample
 
 Start your Liberty server with the following command in the Liberty wlp directory:
 
 ```bin\server run myServer```
 
 Now on a web browser go to http://localhost:9080/helloworld. 
-You should see the helloworld page, refreshing the page should switch the Arduino LED on and off.
+
+You should see the helloworld page and refreshing the page should switch the Arduino LED on and off.
 
 ## Legal
 
@@ -113,6 +49,3 @@ COPYRIGHT LICENSE: This information contains sample code provided in source code
 (C) Copyright IBM Corp. 2014
  
 All Rights Reserved. Licensed Materials - Property of IBM.  
-
-	 
-
