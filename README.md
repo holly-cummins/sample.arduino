@@ -6,13 +6,99 @@ The Liberty Arduino feature provides a Java API which is designed in a way which
 
 ## Installation
 
-The Arduino feature has two pieces - a .esa file that is installed into Liberty runtime, and a .zip file of the Liberty library that is installed into the Arduino IDE.   
+If you haven't already got a Liberty runtime and the Arduino IDE installed then first install those. Get Liberty from [IBM's WASdev](https://developer.ibm.com/wasdev/downloads/liberty-profile-using-non-eclipse-environments/), and the Arduino IDE from the [Arduino website](http://arduino.cc/en/main/software) 
 
-## Arduino setup
+The Liberty Arduino feature has two parts - a library for the Arduino IDE, and a feature for Liberty runtime.
 
-## Liberty setup
+### Install the Arduino library
 
-## First app
+Download the Arduino Liberty library to your local file system from http://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/Arduino-liberty-library-0.0.15.zip
+
+Install the Arduino library in the Arduino IDE on the menu bar choose "Sketch -> Import Library -> Add Library..." and select library zip you just downloaded. You will need to then restart the Arduino IDE to pick up the new library. 
+
+### Install the Liberty Feature
+
+At a command prompt in your Liberty wlp directory use the featureManager command to install the Arduino feature:
+
+```bin\featuremanager install https://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/arduino-feature-0.0.15.esa```
+
+## A first app
+
+As a helloworld style first app we'll use the Liberty Arduino feature to switch on/off an LED on an Arduino from a JSP running in a webapp on Liberty.  
+
+### Program an Arduino with a Liberty sketch
+
+In the Arduino IDE program an Arduino with the Liberty basic example. In the Arduino IDE menu bar choose "File -> Examples -> Liberty -> Basic", and then click the "Upload" button to upload to your Arduino.  
+
+### Liberty setup
+
+```bin\server create myServer```
+
+Edit the config file ```wlp\usr\servers\myServer\server.xml``` file and add the Arduino feature to the <featureManager> section and a <usr_arduino> element for your Arduino, updating the ports attribute value "COM10" to match the serial port of your Arduino:
+
+```<server description="new server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>jsp-2.2</feature>
+        <feature>usr:arduino-1.0</feature>
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="9080"
+                  httpsPort="9443" />
+
+    <usr_arduino id="default" ports="COM10" />
+
+</server>```
+
+### The JSP application
+
+In the directory wlp\usr\servers\myServer\dropins create a directory named helloworld.war and in there create a file named index.jsp with the following contents:
+
+```<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.ibm.ws.arduino.*" %>
+<%@ page import="static com.ibm.ws.arduino.Arduino.Level.LOW" %>
+<%@ page import="static com.ibm.ws.arduino.Arduino.Level.HIGH" %>
+<%@ page import="com.ibm.ws.arduino.Arduino.Mode" %>
+
+<html>
+  <body >
+
+    <h2>Liberty Arduino Demo - Helloworld</h2>
+
+     Refresh the page to switch on and off
+
+<%
+     Arduino arduino = ArduinoService.get();
+
+     int led = 13;    
+     arduino.pinMode(led, Mode.OUTPUT);
+
+     if (arduino.digitalRead(led) == LOW) {
+
+       arduino.digitalWrite(led, HIGH);
+       %><p><b>Light on!</b></p><%
+
+    } else {
+
+       arduino.digitalWrite(led, LOW);
+       %><p><b>Light off!</b></p><%
+
+    }
+%>
+  </body>
+</html>
+```
+
+### Test the application
+
+Start your Liberty server:
+
+```bin\server run myServer```
+
+On a web browser go to http://localhost:9080/helloworld. You should see the helloworld page, and refreshing the page should switch the Arduino LED on and off.
 
 ## Legal
 
