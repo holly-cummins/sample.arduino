@@ -1,6 +1,6 @@
-# The Arduino Feature for the Liberty Profile 
+# The Liberty Profile Arduino Feature 
 
-The Arduino feature for Liberty enables connecting JavaEE applications to things in the real world. This makes possible creating Internet of Things applications which combine the enterprise capabilities of Liberty with cheap and easy to use Arduino microcontrollers and accessories. Think switching lights on/off from a webapp, streaming temperature sensor readings to a database, writing sophisticated GUI's for monitor and control of low power embedded devices. 
+The Arduino feature for the Liberty profile enables connecting JavaEE applications to things in the real world. This makes possible creating Internet of Things applications which combine the enterprise capabilities of Liberty with cheap and easy to use Arduino microcontrollers and accessories. Think switching lights on/off from a webapp, streaming temperature sensor readings to a database, writing sophisticated GUI's for monitor and control of low power embedded devices. 
 
 The Liberty Arduino feature provides a Java API which is designed in a way which makes it familiar and easy to use by anyone who has coded Arduino sketches. It uses a Firmata style protocol for comunicating between Liberty and Arduinos, which may be directly connected to the Liberty server via USB connections, or connected wirelessly by using any of the many different types of Arduino wireless accessories.
 
