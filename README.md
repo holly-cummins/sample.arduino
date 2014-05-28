@@ -4,7 +4,7 @@ The Arduino Feature for the Liberty Profile enables interacting with Arduino mic
 
 The Liberty Arduino feature provides a Java API which is designed in a way which makes it familiar and easy to use by anyone who has coded Arduino sketches. It uses a Firmata style protocol for comunicating with Arduinos, which may be directly connected to the Liberty server via USB connections, or connected wirelessly by using one of the many different types of Arduino wireless accessories.
 
-## Installation
+## Getting started
 
 If you haven't already got a Liberty runtime and the Arduino IDE installed then first install those. Get Liberty from [IBM's WASdev](https://developer.ibm.com/wasdev/downloads/liberty-profile-using-non-eclipse-environments/), and the Arduino IDE from the [Arduino website](http://arduino.cc/en/main/software) 
 
@@ -20,7 +20,7 @@ Install the Arduino library in the Arduino IDE - on the menu bar choose "Sketch 
 
 In the Arduino IDE program an Arduino with the Liberty basic example. In the Arduino IDE menu bar choose "File -> Examples -> Liberty -> Basic", and then click the "Upload" button to upload the sketch to the Arduino. 
 
-## Install the Arduino Feature in Liberty
+### Install the Arduino Feature in Liberty
 
 The Arduino feature is available on the release page as an installable .esa file for manual installation of the feature, however there is also a pre-configured server download that includes the feature and a helloworld style sample application, and that is simplest way to get started.
 
@@ -32,7 +32,7 @@ At a command prompt in your Liberty wlp directory use the java command to instal
 
 Edit the config file ```wlp\usr\servers\myServer\server.xml``` look for the <usr_arduino> element and update the ports attribute value "COM10" to match the serial port of your Arduino.
 
-## Run the sample
+### Run the sample
 
 Start your Liberty server with the following command in the Liberty wlp directory:
 
