@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
 import purejavacomm.CommPortIdentifier;
@@ -442,14 +443,14 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
         while (retry++ < retries) {
             try {
                 return doCommand2(command);
-            } catch (IOException e) {
-                System.err.println("retry " + retry + " after exception: " + e.getMessage());
+            } catch (TimeoutException e) {
+                LOGGER.log(java.util.logging.Level.FINE, ("retry " + retry + " after response timeout"));
             }
           }
-        throw new IOException("Retried failed");
+        throw new IOException("no response received after " + retries + " retries");
     }
     
-    private synchronized String doCommand2(String command) throws IOException {
+    private synchronized String doCommand2(String command) throws IOException, TimeoutException {
         if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "doCommand: " + command);
 
         if (!!!isOpen()) {
@@ -507,7 +508,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
         }
 
         //  if its got here then the response is null
-        throw new IOException("no response received");
+        throw new TimeoutException("no response received");
     }
 
     protected String getRemoteName() {
@@ -604,7 +605,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     }
 
     private void log(String response) {
-        String msg = "Arduino '" + commPort.getName() + "': " + response.substring(response.indexOf(',') + 1);
+        String msg = "Arduino '" + commPort.getName() + ":" + arduinoName + "': " + response.substring(response.indexOf(',') + 1);
         if (LOGGER.isLoggable(java.util.logging.Level.INFO))
             LOGGER.log(java.util.logging.Level.INFO, msg);
     }
