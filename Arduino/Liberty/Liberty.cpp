@@ -382,13 +382,13 @@ int Liberty::findInvoker() {
   int nameLength = Serial.parseInt(); 
 
   boolean matched[MAX_INVOKERS];
-  for (int j=0; j<5; j++) {
+  for (int j=0; j<MAX_INVOKERS; j++) {
     matched[j] = true;
   }
 
   for (int i=0; i<nameLength; i++) {
     int c = readWithWait();
-    for (int j=0; j<5; j++) {
+    for (int j=0; j<MAX_INVOKERS; j++) {
       if (matched[j]) {
          matched[j] = (c == invokerNames[j][i]);
       }
@@ -396,7 +396,7 @@ int Liberty::findInvoker() {
   }
 
   if (cmdEndOk()) {
-    for (int j=0; j<5; j++) {
+    for (int j=0; j<MAX_INVOKERS; j++) {
       if (matched[j]) {
         return j;
       }
