@@ -37,11 +37,12 @@
 #define CBFUNCTION_ARGS_ERROR 94
 #define CALLBACK_TRIGGERED 31
 #define CALLBACK_RESET 32
+#define NOTIFICATION_EVENT 33
 
 #define MAX_INVOKERS 10
 #define MAX_CALLBACKS 10
 
-#define VERSION "0.0.15"
+#define VERSION "0.0.17"
 
 typedef enum CMD {
         CMD_NOT_USEDNOW1,       //0
@@ -63,7 +64,7 @@ typedef enum CMD {
         CMD_VERSION             //16
 } command_t;
 
-char *nodeName = NULL;
+char *arduinoName = NULL;
 
 // 1000000 seems to work fast and reliably, could drop down to 115200 if problems 
 unsigned long baud = 1000000;
@@ -108,7 +109,7 @@ Liberty::Liberty() {
 }
 
 Liberty::Liberty(char *name) {
-  nodeName = name;
+  arduinoName = name;
 }
 
 Liberty::Liberty(unsigned long speed) {
@@ -116,7 +117,7 @@ Liberty::Liberty(unsigned long speed) {
 }
 
 Liberty::Liberty(char *name, unsigned long speed) {
-  nodeName = name;
+  arduinoName = name;
   baud = speed;
 }
 
@@ -434,6 +435,16 @@ void Liberty::invocable(char *name, int (*f)(int, int)) {
    invokerFs[invokers++] = (fx0)f;
 }
 
+void Liberty::notify(char* name, int value) {
+       Serial.print(NOTIFICATION_EVENT);
+       Serial.print(",");
+       Serial.print(name);
+       Serial.print(",");
+       Serial.print(arduinoName);
+       Serial.print(",");
+       Serial.println(value);
+}
+
 void Liberty::doNoop() {
   if (cmdEndOk()) {
     sendResponse(OK);
@@ -568,11 +579,11 @@ void Liberty::doVersion() {
     Serial.print(OK);
     Serial.print(",");
     Serial.print(VERSION);
-    if (nodeName == NULL) {
+    if (arduinoName == NULL) {
        Serial.println();
     } else { 
        Serial.print(",");
-       Serial.println(nodeName);
+       Serial.println(arduinoName);
     }
   } else {
     sendResponse(ARGS_ERROR);

@@ -97,5 +97,8 @@ public interface Arduino {
 
     void clearCallbacks() throws IOException;
 
+    void addNotification(String name, Notification n);
+    void removeNotification(Notification n);
+
     Arduino getRemote(String name);
 }

@@ -6,5 +6,5 @@ sramWrite	KEYWORD2
 invocable	KEYWORD2
 speed	KEYWORD2
 setReadTimeout	KEYWORD2
-call	KEYWORD2
+notify	KEYWORD2
 log	KEYWORD2

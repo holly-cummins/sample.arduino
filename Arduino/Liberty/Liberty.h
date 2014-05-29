@@ -34,10 +34,10 @@ class Liberty
     void invocable(char *name, int (*f)());
     void invocable(char *name, int (*f)(int x));
     void invocable(char *name, int (*f)(int x, int y));
-    int call(char* name, int x);
     void log(char* msg);
     void log(String s);
     void setReadTimeout(int t);
+    void notify(char* name, int value);
 
   private:
     void doPinMode();

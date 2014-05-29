@@ -42,6 +42,7 @@ import purejavacomm.UnsupportedCommOperationException;
 
 import com.ibm.ws.arduino.Arduino;
 import com.ibm.ws.arduino.Callback;
+import com.ibm.ws.arduino.Notification;
 
 public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Runnable {
     private final static Logger LOGGER = Logger.getLogger(ArduinoAsyncImpl.class.getName());
@@ -64,6 +65,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     private static final int CMD_REMOTE = 17;
     private static final int CMD_CALLBACK_TRIGGERED = 31;
     private static final int CMD_CALLBACK_RESET = 32;
+    private static final int CMD_NAMED_CALLBACK_FIRED = 33;
     private static final int CMD_LOG = 34;
 
     private static final int RESPONSE_OK = 0;
@@ -104,6 +106,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     private final Object responseMutex = new Object();
 
     private Map<Integer, Callback> callbacks = new ConcurrentHashMap<Integer, Callback>();
+    private Map<String, List<Notification>> notifications = new ConcurrentHashMap<String, List<Notification>>();
 
     ExecutorService executor = Executors.newFixedThreadPool(5);
 
@@ -378,6 +381,28 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
         return cbid;
     }
 
+    @Override
+    public void addNotification(String name, Notification n) {
+        List<Notification> ns = notifications.get(name);
+        if (ns == null) {
+            ns = new ArrayList<Notification>();
+            notifications.put(name, ns);
+        }
+        ns.add(n);
+    }
+
+    @Override
+    public void removeNotification(Notification n) {
+        for (List<Notification> ns : notifications.values()) {
+            for (Notification nx : ns) { 
+                if (nx.equals(n)) {
+                    ns.remove(n);
+                    return;
+                }
+            }
+        }
+    }
+
     private String formatCommand(int command, int... args) {
         StringBuilder sb = new StringBuilder();
         sb.append(command);
@@ -583,9 +608,9 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
                                 responseMutex.notify();
                             }
 
-                        } else if (cmd == CMD_CALLBACK_TRIGGERED || cmd == CMD_CALLBACK_RESET) {
+                        } else if (cmd == CMD_CALLBACK_TRIGGERED || cmd == CMD_CALLBACK_RESET || cmd == CMD_NAMED_CALLBACK_FIRED) {
 
-                            runCallback(response);
+                            processCallback(cmd, response);
 
                         } else if (cmd == CMD_LOG) {
 
@@ -610,32 +635,46 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
             LOGGER.log(java.util.logging.Level.INFO, msg);
     }
 
-    private void runCallback(String response) {
-        final int[] intArray = parseResponse(response);
-        final Callback cb = callbacks.get(intArray[1]);
+    private void processCallback(int cmd, String response) {
+        if (cmd == CMD_NAMED_CALLBACK_FIRED) {
+            String[] strArray = response.split(",");
+            List<Notification> nList = notifications.get(strArray[1]);
+            if (nList != null) {
+                for (Notification n : nList) {
+                    runCallback(cmd, strArray[2], n, Integer.parseInt(strArray[3]));
+                }
+            }
+        } else {
+            final int[] intArray = parseResponse(response);
+            Callback cb = callbacks.get(intArray[1]);
+            runCallback(cmd, String.valueOf(intArray[1]), cb, intArray[2]);
+        }
+    }
 
+    private void runCallback(final int type, final String id, final Object cb, final int value) {
         if (cb != null) {
             Runnable worker = new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        if (intArray[0] == CMD_CALLBACK_TRIGGERED) {
-                            if (LOGGER.isLoggable(java.util.logging.Level.FINE))
-                                LOGGER.log(java.util.logging.Level.FINE, "calling callback triggered() for callbackId: " + intArray[1]);
-                            cb.triggered(intArray[2]);
+                        if (type == CMD_CALLBACK_TRIGGERED) {
+                            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling callback triggered() for callbackId: " + id);
+                            ((Callback)cb).triggered(value);
+                        } else if (type == CMD_NAMED_CALLBACK_FIRED) {
+                            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling event for notification: " + id);
+                            ((Notification)cb).event(id, value);
                         } else {
-                            if (LOGGER.isLoggable(java.util.logging.Level.FINE))
-                                LOGGER.log(java.util.logging.Level.FINE, "calling callback reset() for callbackId: " + intArray[1]);
-                            cb.reset(intArray[2]);
+                            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling callback reset() for callbackId: " + id);
+                            ((Callback)cb).reset(value);
                         }
                     } catch (Throwable e) {
-                        LOGGER.log(java.util.logging.Level.FINE, "exception running callback: " + e.getMessage(), e);
+                        LOGGER.log(java.util.logging.Level.FINE, "exception while running callback: " + e.getMessage(), e);
                     }
                 }
             };
             executor.execute(worker);
         } else {
-            LOGGER.log(java.util.logging.Level.FINE, "unknown callback: " + intArray[1] + ", current callbacks: " + callbacks.keySet());
+            LOGGER.log(java.util.logging.Level.FINE, "unknown callback: " + id);
         }
     }
 
@@ -711,5 +750,4 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     public String getArduinoName() {
         return arduinoName;
     }
-
 }
