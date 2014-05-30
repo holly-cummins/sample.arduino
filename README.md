@@ -24,7 +24,7 @@ In the Arduino IDE program an Arduino with the Liberty basic example. In the Ard
 
 The Arduino feature is available on the release page as a .esa file for manual installation of the feature, however there is also a pre-configured server download that includes the feature and a helloworld style sample application, and that is simplest way to get started.
 
-Download the liberty-arduino-server jar file from the [github release page](https://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/sample-server-0.0.15.jar), and at a command prompt in your Liberty wlp directory use the java command to install the sample server:
+Download the sample-server jar file from the [github release page](https://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/sample-server-0.0.15.jar), and at a command prompt in your Liberty wlp directory use the java command to install the sample server:
 
 ```java -jar sample-server-0.0.15.jar```
 
