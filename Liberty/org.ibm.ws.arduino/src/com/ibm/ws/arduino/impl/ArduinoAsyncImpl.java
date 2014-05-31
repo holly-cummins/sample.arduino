@@ -65,7 +65,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     private static final int CMD_REMOTE = 17;
     private static final int CMD_CALLBACK_TRIGGERED = 31;
     private static final int CMD_CALLBACK_RESET = 32;
-    private static final int CMD_NAMED_CALLBACK_FIRED = 33;
+    private static final int CMD_NOTIFICATION = 33;
     private static final int CMD_LOG = 34;
 
     private static final int RESPONSE_OK = 0;
@@ -608,7 +608,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
                                 responseMutex.notify();
                             }
 
-                        } else if (cmd == CMD_CALLBACK_TRIGGERED || cmd == CMD_CALLBACK_RESET || cmd == CMD_NAMED_CALLBACK_FIRED) {
+                        } else if (cmd == CMD_CALLBACK_TRIGGERED || cmd == CMD_CALLBACK_RESET || cmd == CMD_NOTIFICATION) {
 
                             processCallback(cmd, response);
 
@@ -636,7 +636,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     }
 
     private void processCallback(int cmd, String response) {
-        if (cmd == CMD_NAMED_CALLBACK_FIRED) {
+        if (cmd == CMD_NOTIFICATION) {
             String[] strArray = response.split(",");
             List<Notification> nList = notifications.get(strArray[1]);
             if (nList != null) {
@@ -657,16 +657,17 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
                 @Override
                 public void run() {
                     try {
+                        if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling callback, type=" + type + ", id=" + id + ", value=" + value);
+
                         if (type == CMD_CALLBACK_TRIGGERED) {
-                            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling callback triggered() for callbackId: " + id);
                             ((Callback)cb).triggered(value);
-                        } else if (type == CMD_NAMED_CALLBACK_FIRED) {
-                            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling event for notification: " + id);
+                        } else if (type == CMD_NOTIFICATION) {
                             ((Notification)cb).event(id, value);
                         } else {
-                            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling callback reset() for callbackId: " + id);
                             ((Callback)cb).reset(value);
                         }
+
+                        if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "back from callback");
                     } catch (Throwable e) {
                         LOGGER.log(java.util.logging.Level.FINE, "exception while running callback: " + e.getMessage(), e);
                     }
