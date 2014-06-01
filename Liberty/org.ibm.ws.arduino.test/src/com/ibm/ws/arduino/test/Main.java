@@ -1,33 +1,40 @@
 package com.ibm.ws.arduino.test;
 
+import static com.ibm.ws.arduino.Arduino.Comparitor.CHGBY;
+
 import java.io.IOException;
 
 import com.ibm.ws.arduino.Arduino;
-import com.ibm.ws.arduino.Arduino.Level;
-import com.ibm.ws.arduino.Arduino.Mode;
 import com.ibm.ws.arduino.ArduinoService;
+import com.ibm.ws.arduino.Callback;
+import com.ibm.ws.arduino.Notification;
 
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Arduino arduino = ArduinoService.get(TestPort.PORT);
+//        arduino.clearCallbacks();
+//        
+//        arduino.analogCallback(3, CHGBY, 5, new Callback() {
+//            @Override
+//            public void triggered(int value) {
+//                System.out.println("triggered: " + value);
+//            }
+//
+//            @Override
+//            public void reset(int value) {
+//                System.out.println("reset: " + value);
+//            }});        
+//   
+        arduino.addNotification("test", new Notification() {
+            @Override
+            public void event(String arduinoName, int value) {
+                System.out.println("Event 'test' from: " + arduinoName + " value: " + value);
+            }});
         
-        boolean b = false;
-        arduino.pinMode(13, Mode.OUTPUT);
-        for (int i=0; i<100; i++) {
-//            if (Level.HIGH == arduino.digitalRead(13)) {
-              if (b) {
-                arduino.digitalWrite(13, Level.LOW);            
-             } else {
-                 arduino.digitalWrite(13, Level.HIGH);            
-             }
-              b = !b;
-            Thread.sleep(1000);
+        synchronized (Main.class) {
+            Main.class.wait();
         }
-        
-//        synchronized (Main.class) {
-//            Main.class.wait();
-//        }
     }
 
 }

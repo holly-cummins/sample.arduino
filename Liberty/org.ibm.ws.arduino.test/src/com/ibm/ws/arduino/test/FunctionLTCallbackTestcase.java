@@ -36,7 +36,7 @@ public class FunctionLTCallbackTestcase {
     @Test
     public void testLessThanCallback() throws IOException, InterruptedException {
 
-        arduino.sramWrite(0, 100);
+        arduino.sramWrite(0, new byte[]{100});
 
         Callback cb = new Callback() {
             public void triggered(int value) {
@@ -68,7 +68,7 @@ public class FunctionLTCallbackTestcase {
         assertFalse(triggeredCalled);
         assertFalse(resetCalled);
 
-        arduino.sramWrite(0, 5);
+        arduino.sramWrite(0, new byte[]{5});
         synchronized (mutex) {
             if (!!!triggeredCalled)
                 mutex.wait(1000);
@@ -79,7 +79,7 @@ public class FunctionLTCallbackTestcase {
 
         triggeredCalled = false;
 
-        arduino.sramWrite(0, 100);
+        arduino.sramWrite(0, new byte[]{100});
         synchronized (mutex) {
             if (!!!resetCalled)
                 mutex.wait(1000);

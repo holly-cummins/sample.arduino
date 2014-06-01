@@ -103,10 +103,10 @@ public class RemoteArduino implements Arduino {
     }
 
     @Override
-    public int sramRead(int address) throws IOException {
+    public byte[] sramRead(int address, int length) throws IOException {
         try {
             arduino.setRemote(name);
-            return arduino.sramRead(address);
+            return arduino.sramRead(address, length);
         } finally {
             arduino.removeRemote();
         }
@@ -123,7 +123,7 @@ public class RemoteArduino implements Arduino {
     }
 
     @Override
-    public void sramWrite(int address, int value) throws IOException {
+    public void sramWrite(int address, byte[] value) throws IOException {
         try {
             arduino.setRemote(name);
             arduino.sramWrite(address, value);
@@ -237,4 +237,5 @@ public class RemoteArduino implements Arduino {
             arduino.removeRemote();
         }
     }
+
 }

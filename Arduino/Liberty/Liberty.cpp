@@ -35,6 +35,9 @@
 #define TOO_MANY_CALLBACKS_ERROR 96
 #define NARGS_ERROR 95
 #define CBFUNCTION_ARGS_ERROR 94
+#define NO_SRAM_ERROR 93
+#define SRAM_OVERFLOW_ERROR 92
+
 #define CALLBACK_TRIGGERED 31
 #define CALLBACK_RESET 32
 #define NOTIFICATION_EVENT 33
@@ -56,7 +59,7 @@ typedef enum CMD {
         CMD_SRAM_READ,          //8
         CMD_SRAM_WRITE,         //9
         CMD_INVOKE,             //10
-        CMD_SRAM_WRITE_STRING,  //11
+        NOT_USED_1,             //11
         CMD_SRAM_READ_STRING,   //12
         CMD_CALLBACK,           //13
         CMD_NOOP,               //14
@@ -71,7 +74,9 @@ unsigned long baud = 1000000;
 
 int readTimeout = 500; 
 
-byte sram[150];
+byte *sramBytes;
+int sramSize;
+
 int currentCmdId;
 
 const char *invokerNames[MAX_INVOKERS];
@@ -171,10 +176,6 @@ void Liberty::update() {
          }
          case CMD_INVOKE: {
             doInvoke();
-            break;
-         }
-         case CMD_SRAM_WRITE_STRING: {
-            doSramWriteString();
             break;
          }
          case CMD_SRAM_READ_STRING: {
@@ -295,9 +296,25 @@ void Liberty::doEepromWrite() {
 
 void Liberty::doSramRead() {
   int address = Serial.parseInt(); 
+  int length = Serial.parseInt(); 
   if (cmdEndOk()) {
-    byte value = sram[address];
-    sendResponseValue(value);
+    if (sramBytes == NULL) {
+       sendResponse(NO_SRAM_ERROR);
+    }
+    if ((address+length) > sramSize) {
+       sendResponse(SRAM_OVERFLOW_ERROR);
+    }
+
+    Serial.print(currentCmdId);
+    Serial.print(",");
+    Serial.print(OK);
+    Serial.print(",");
+    while (length-- > 0) {
+      Serial.print(sramBytes[address++]);
+      if (length > 0) Serial.print(",");
+    }
+    Serial.println();
+
   } else {
     sendResponse(ARGS_ERROR);
   } 
@@ -305,9 +322,22 @@ void Liberty::doSramRead() {
 
 void Liberty::doSramWrite() {
   int address = Serial.parseInt(); 
-  byte value = Serial.parseInt(); 
+  int length = Serial.parseInt(); 
+
+  if (sramBytes == NULL) {
+//     Serial.findUntil("\n", 1);     
+     sendResponse(NO_SRAM_ERROR);
+  }
+  if ((address+length) > sramSize) {
+  //   Serial.findUntil("\n", 1);     
+     sendResponse(SRAM_OVERFLOW_ERROR);
+  }
+    
+  while (length-- > 0) {
+     sramBytes[address++] = Serial.parseInt();
+  }
+
   if (cmdEndOk()) {
-    sram[address] = value;
     sendResponse(OK);
   } else {
     sendResponse(ARGS_ERROR);
@@ -317,29 +347,19 @@ void Liberty::doSramWrite() {
 void Liberty::doSramReadString() {
   int address = Serial.parseInt(); 
   if (cmdEndOk()) {
-    Serial.print(currentCmdId);
-    Serial.print(",");
-    Serial.print(OK);
-//    Serial.print(",");
-    while (sram[address] != 0) {
-      Serial.print((char)sram[address++]);
+    if (sramBytes == NULL) {
+       sendResponse(NO_SRAM_ERROR);
+    } else {
+       Serial.print(currentCmdId);
+       Serial.print(",");
+       Serial.print(OK);
+       Serial.print(",");
+       while (sramBytes[address] != 0) {
+          Serial.print(sramBytes[address++]);
+          if (sramBytes[address] != 0) Serial.print(",");
+       }
+       Serial.println();
     }
-    Serial.println();
-  } else {
-    sendResponse(ARGS_ERROR);
-  } 
-}  
-
-void Liberty::doSramWriteString() {
-  int address = Serial.parseInt(); 
-  int len = Serial.parseInt(); 
-  for (int i=0; i<=len; i++) {
-     sram[address++] = (char)readWithWait();
-  }
-  sram[address] = 0; // null delimit the string
-
-  if (cmdEndOk()) {
-    sendResponse(OK);
   } else {
     sendResponse(ARGS_ERROR);
   } 
@@ -409,12 +429,9 @@ int Liberty::findInvoker() {
   } 
 }
 
-byte Liberty::sramRead(int address) {
-   return sram[address];
-}
-
-void Liberty::sramWrite(int address, byte value) {
-   sram[address] = value;
+void Liberty::sram(byte *bytes, int size) {
+   sramBytes = bytes;
+   sramSize = size;
 }
 
 void Liberty::invocable(char *name, int (*f)()) {

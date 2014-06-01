@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,10 +55,9 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     private static final int CMD_ANALOG_WRITE = 5;
     private static final int CMD_EEPROM_READ = 6;
     private static final int CMD_EEPROM_WRITE = 7;
-    private static final int CMD_SRAM_READ = 8;
-    private static final int CMD_SRAM_WRITE = 9;
+    private static final int CMD_SRAM_READ_BYTES = 8;
+    private static final int CMD_SRAM_WRITE_BYTES = 9;
     private static final int CMD_INVOKE = 10;
-    private static final int CMD_SRAM_WRITE_STRING = 11;
     private static final int CMD_SRAM_READ_STRING = 12;
     private static final int CMD_CALLBACK = 13;
     private static final int CMD_CLEAR_CALLBACKS = 15;
@@ -65,7 +65,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     private static final int CMD_REMOTE = 17;
     private static final int CMD_CALLBACK_TRIGGERED = 31;
     private static final int CMD_CALLBACK_RESET = 32;
-    private static final int CMD_NOTIFICATION = 33;
+    private static final int CMD_NAMED_CALLBACK_FIRED = 33;
     private static final int CMD_LOG = 34;
 
     private static final int RESPONSE_OK = 0;
@@ -302,22 +302,55 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#sramRead(int)
+     * @see com.ibm.ws.arduino.impl.Arduino#sramRead(int, int)
      */
     @Override
-    public int sramRead(int address) throws IOException {
-        return parseValueResponse(doCommand(formatCommand(CMD_SRAM_READ, address)));
+    public byte[] sramRead(int address, int length) throws IOException {
+        if (length == 0) return new byte[0];        
+        return parseBytesResponse(doCommand(formatCommand(CMD_SRAM_READ_BYTES, address, length)));
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#sramWrite(int, int)
+     * @see com.ibm.ws.arduino.impl.Arduino#sramReadString(int)
      */
     @Override
-    public void sramWrite(int address, int value) throws IOException {
-        parseOkResponse(doCommand(formatCommand(CMD_SRAM_WRITE, address, value)));
+    public String sramReadString(int address) throws IOException {
+        return new String(parseBytesResponse(doCommand(formatCommand(CMD_SRAM_READ_STRING, address))));
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.ibm.ws.arduino.impl.Arduino#sramWrite(int, byte[])
+     */
+    @Override
+    public void sramWrite(int address, byte[] bytes) throws IOException {
+        if (bytes.length == 0) return; 
+        StringWriter sw = new StringWriter();
+        for (int i=0; i<bytes.length; i++) {
+            sw.append(String.valueOf(bytes[i]));
+            if (i < bytes.length-1) {
+                sw.append(',');
+            }
+        }
+        parseOkResponse(doCommand(CMD_SRAM_WRITE_BYTES + "," + address + "," + bytes.length + "," + sw.toString() + "\n"));
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.ibm.ws.arduino.impl.Arduino#sramWrite(int, String)
+     */
+    @Override
+    public void sramWrite(int address, String s) throws IOException {
+        byte[] bytes = new byte[s.length()+1];
+        System.arraycopy(s.getBytes(), 0, bytes, 0, s.length());
+        bytes[s.length()] = 0; // Arduino strings are null terminated
+        sramWrite(address, bytes);
+    }
+
 
     /*
      * (non-Javadoc)
@@ -434,18 +467,18 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
         return intArray[1];
     }
 
-    private String parseStringResponse(String response) throws IOException {
+    private byte[] parseBytesResponse(String response) throws IOException {
         String[] strArray = response.split(",");
-
         checkResponse(Integer.parseInt(strArray[0]));
-
-        if (strArray.length < 2) {
-            return "";
+        
+        byte[] bytes = new byte[strArray.length-1];
+        for (int i=0; i<bytes.length; i++) {
+           bytes[i] = (byte)Integer.parseInt(strArray[i+1]);            
         }
-
-        return strArray[1];
+        
+        return bytes;
     }
-
+    
     private void parseOkResponse(String response) throws IOException {
         int[] intArray = parseResponse(response);
         checkResponse(intArray[0]);
@@ -608,7 +641,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
                                 responseMutex.notify();
                             }
 
-                        } else if (cmd == CMD_CALLBACK_TRIGGERED || cmd == CMD_CALLBACK_RESET || cmd == CMD_NOTIFICATION) {
+                        } else if (cmd == CMD_CALLBACK_TRIGGERED || cmd == CMD_CALLBACK_RESET || cmd == CMD_NAMED_CALLBACK_FIRED) {
 
                             processCallback(cmd, response);
 
@@ -630,13 +663,13 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     }
 
     private void log(String response) {
-        String msg = "Arduino '" + commPort.getName() + ":" + arduinoName + "': " + response.substring(response.indexOf(',') + 1);
+        String msg = "Arduino '" + commPort.getName() + "': " + response.substring(response.indexOf(',') + 1);
         if (LOGGER.isLoggable(java.util.logging.Level.INFO))
             LOGGER.log(java.util.logging.Level.INFO, msg);
     }
 
     private void processCallback(int cmd, String response) {
-        if (cmd == CMD_NOTIFICATION) {
+        if (cmd == CMD_NAMED_CALLBACK_FIRED) {
             String[] strArray = response.split(",");
             List<Notification> nList = notifications.get(strArray[1]);
             if (nList != null) {
@@ -657,17 +690,16 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
                 @Override
                 public void run() {
                     try {
-                        if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling callback, type=" + type + ", id=" + id + ", value=" + value);
-
                         if (type == CMD_CALLBACK_TRIGGERED) {
+                            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling callback triggered() for callbackId: " + id);
                             ((Callback)cb).triggered(value);
-                        } else if (type == CMD_NOTIFICATION) {
+                        } else if (type == CMD_NAMED_CALLBACK_FIRED) {
+                            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling event for notification: " + id);
                             ((Notification)cb).event(id, value);
                         } else {
+                            if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling callback reset() for callbackId: " + id);
                             ((Callback)cb).reset(value);
                         }
-
-                        if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "back from callback");
                     } catch (Throwable e) {
                         LOGGER.log(java.util.logging.Level.FINE, "exception while running callback: " + e.getMessage(), e);
                     }
@@ -702,16 +734,6 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     private synchronized int getNextCallbackID() {
         this.cbid = cbid + 1;
         return cbid;
-    }
-
-    @Override
-    public void sramWrite(int address, String value) throws IOException {
-        parseOkResponse(doCommand(CMD_SRAM_WRITE_STRING + "," + address + "," + value.length() + "," + value + "\n"));
-    }
-
-    @Override
-    public String sramReadString(int address) throws IOException {
-        return parseStringResponse(doCommand(formatCommand(CMD_SRAM_READ_STRING, address)));
     }
 
     @Override
@@ -751,4 +773,5 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     public String getArduinoName() {
         return arduinoName;
     }
+
 }

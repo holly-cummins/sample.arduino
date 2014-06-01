@@ -36,7 +36,7 @@ public class FunctionEQCallbackTestcase {
     @Test
     public void testCallback() throws IOException, InterruptedException {
 
-        arduino.sramWrite(0, 0);
+        arduino.sramWrite(0, new byte[]{0});
 
         Callback cb = new Callback() {
             public void triggered(int value) {
@@ -67,7 +67,7 @@ public class FunctionEQCallbackTestcase {
         assertFalse(triggeredCalled);
         assertFalse(resetCalled);
 
-        arduino.sramWrite(0, 10);
+        arduino.sramWrite(0, new byte[]{10});
         synchronized (mutex) {
             if (!!!triggeredCalled)
                 mutex.wait(2000);
@@ -78,7 +78,7 @@ public class FunctionEQCallbackTestcase {
 
         triggeredCalled = false;
 
-        arduino.sramWrite(0, 0);
+        arduino.sramWrite(0, new byte[]{0});
         synchronized (mutex) {
             if (!!!resetCalled)
                 mutex.wait(1000);

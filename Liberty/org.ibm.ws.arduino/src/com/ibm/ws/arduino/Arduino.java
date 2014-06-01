@@ -19,6 +19,44 @@ import java.io.IOException;
 
 public interface Arduino {
 
+    void pinMode(int pin, Mode mode) throws IOException;
+
+    Level digitalRead(int pin) throws IOException;
+
+    void digitalWrite(int pin, Level value) throws IOException;
+
+    int analogRead(int pin) throws IOException;
+
+    void analogWrite(int pin, int value) throws IOException;
+
+    int eepromRead(int address) throws IOException;
+
+    void eepromWrite(int address, int value) throws IOException;
+
+    byte[] sramRead(int address, int length) throws IOException;
+    String sramReadString(int address) throws IOException;
+    void sramWrite(int address, byte[] value) throws IOException;
+    void sramWrite(int address, String s) throws IOException;
+
+    int invoke(String function) throws IOException;
+
+    int invoke(String function, int x) throws IOException;
+
+    int invoke(String function, int x, int y) throws IOException;
+
+    int digitalCallback(int pin, Level state, Callback cb) throws IOException;
+
+    int analogCallback(int pin, Comparitor comparitor, int value, Callback cb) throws IOException;
+
+    int functionCallback(String function, Comparitor comparitor, int value, Callback cb) throws IOException;
+
+    void clearCallbacks() throws IOException;
+
+    void addNotification(String name, Notification n);
+    void removeNotification(Notification n);
+
+    Arduino getRemote(String name);
+    
     /**
      * 
      */
@@ -61,44 +99,4 @@ public interface Arduino {
         }
     }
 
-    void pinMode(int pin, Mode mode) throws IOException;
-
-    Level digitalRead(int pin) throws IOException;
-
-    void digitalWrite(int pin, Level value) throws IOException;
-
-    int analogRead(int pin) throws IOException;
-
-    void analogWrite(int pin, int value) throws IOException;
-
-    int eepromRead(int address) throws IOException;
-
-    void eepromWrite(int address, int value) throws IOException;
-
-    int sramRead(int address) throws IOException;
-
-    String sramReadString(int address) throws IOException;
-
-    void sramWrite(int address, int value) throws IOException;
-
-    void sramWrite(int address, String value) throws IOException;
-
-    int invoke(String function) throws IOException;
-
-    int invoke(String function, int x) throws IOException;
-
-    int invoke(String function, int x, int y) throws IOException;
-
-    int digitalCallback(int pin, Level state, Callback cb) throws IOException;
-
-    int analogCallback(int pin, Comparitor comparitor, int value, Callback cb) throws IOException;
-
-    int functionCallback(String function, Comparitor comparitor, int value, Callback cb) throws IOException;
-
-    void clearCallbacks() throws IOException;
-
-    void addNotification(String name, Notification n);
-    void removeNotification(Notification n);
-
-    Arduino getRemote(String name);
 }

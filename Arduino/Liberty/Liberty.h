@@ -29,8 +29,7 @@ class Liberty
     Liberty(char *name, unsigned long speed);
     void begin();
     void update();
-    byte sramRead(int address);
-    void sramWrite(int address, byte value);
+    void sram(byte *bytes, int length);
     void invocable(char *name, int (*f)());
     void invocable(char *name, int (*f)(int x));
     void invocable(char *name, int (*f)(int x, int y));

@@ -64,24 +64,24 @@ public class FunctionChgCallbackTestcase {
     private void testIt() throws IOException, InterruptedException {
 
         // reset to last fired at 100
-        arduino.sramWrite(0, 0);
-        arduino.sramWrite(0, 100);
+        arduino.sramWrite(0, new byte[]{0});
+        arduino.sramWrite(0, new byte[]{100});
         Thread.sleep(100);
         triggeredCalled = false;
         resetCalled = false;
 
         // small update, no callback
-        arduino.sramWrite(0, 99);
+        arduino.sramWrite(0, new byte[]{99});
         Thread.sleep(100);
         assertFalse(triggeredCalled);
         assertFalse(resetCalled);
-        arduino.sramWrite(0, 105);
+        arduino.sramWrite(0, new byte[]{105});
         Thread.sleep(100);
         assertFalse(triggeredCalled);
         assertFalse(resetCalled);
 
         // low change, reset called
-        arduino.sramWrite(0, 89);
+        arduino.sramWrite(0, new byte[]{89});
         synchronized (mutex) {
             if (!!!resetCalled)
                 mutex.wait(500);
@@ -92,7 +92,7 @@ public class FunctionChgCallbackTestcase {
         resetCalled = false;
 
         // another low change, reset called again
-        arduino.sramWrite(0, 69);
+        arduino.sramWrite(0, new byte[]{69});
         synchronized (mutex) {
             if (!!!resetCalled)
                 mutex.wait(500);
@@ -103,7 +103,7 @@ public class FunctionChgCallbackTestcase {
         resetCalled = false;
 
         // increase change, triggered called
-        arduino.sramWrite(0, 90);
+        arduino.sramWrite(0, new byte[]{90});
         synchronized (mutex) {
             if (!!!triggeredCalled)
                 mutex.wait(500);
@@ -114,7 +114,7 @@ public class FunctionChgCallbackTestcase {
         resetCalled = false;
 
         // another low change, reset called
-        arduino.sramWrite(0, 79);
+        arduino.sramWrite(0, new byte[]{79});
         synchronized (mutex) {
             if (!!!resetCalled)
                 mutex.wait(500);
@@ -125,7 +125,7 @@ public class FunctionChgCallbackTestcase {
         resetCalled = false;
 
         // increase change, triggered called
-        arduino.sramWrite(0, 90);
+        arduino.sramWrite(0, new byte[]{90});
         synchronized (mutex) {
             if (!!!triggeredCalled)
                 mutex.wait(500);

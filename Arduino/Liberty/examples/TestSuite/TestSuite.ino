@@ -12,8 +12,10 @@ Liberty liberty("TestNode");
 boolean ns = false;
 int nc = 0;
 unsigned long ln;
+byte bs[20];
 
 void setup() {
+   liberty.sram(sramBytes, 20);
    liberty.invocable("foo", &foo);
    liberty.invocable("bar", &bar);
    liberty.invocable("qaz", &qaz);
@@ -34,7 +36,7 @@ void loop() {
   }  
 }
 int foo() {
- return liberty.sramRead(0);
+ return bs[0];
 }
 int bar() {
  return 42;

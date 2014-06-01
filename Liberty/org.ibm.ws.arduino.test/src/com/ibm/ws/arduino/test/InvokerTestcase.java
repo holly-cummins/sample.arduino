@@ -19,6 +19,14 @@ public class InvokerTestcase {
     }
 
     @Test
+    public void testInvokeFoo() throws IOException {
+        Arduino arduino = ArduinoService.get(TestPort.PORT);
+        arduino.sramWrite(0, new byte[]{123});
+        assertEquals(123, arduino.invoke("foo"));
+        arduino.sramWrite(0, new byte[]{97});
+        assertEquals(97, arduino.invoke("foo"));
+    }
+    @Test
     public void testInvokeWithArg() throws IOException {
         Arduino arduino = ArduinoService.get(TestPort.PORT);
         assertEquals(20, arduino.invoke("qaz", 5));

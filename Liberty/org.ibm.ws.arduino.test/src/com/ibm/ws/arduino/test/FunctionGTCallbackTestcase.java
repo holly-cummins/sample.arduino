@@ -36,7 +36,7 @@ public class FunctionGTCallbackTestcase {
     @Test
     public void testLessThanCallback() throws IOException, InterruptedException {
 
-        arduino.sramWrite(0, 100);
+        arduino.sramWrite(0, new byte[]{10});
 
         Callback cb = new Callback() {
             public void triggered(int value) {
@@ -53,22 +53,23 @@ public class FunctionGTCallbackTestcase {
                 }
             }
         };
-        arduino.functionCallback("foo", GT, 200, cb);
+        arduino.functionCallback("foo", GT, 55, cb);
 
         Thread.sleep(1000);
-        for (int i = 0; i < 5; i++) {
-            triggeredCalled = false;
-            resetCalled = false;
+        for (int i = 0; i < 1; i++) {
             testIt();
         }
 
     }
 
     private void testIt() throws IOException, InterruptedException {
+        triggeredCalled = false;
+        resetCalled = false;
+
         assertFalse(triggeredCalled);
         assertFalse(resetCalled);
 
-        arduino.sramWrite(0, 500);
+        arduino.sramWrite(0, new byte[]{126});
         synchronized (mutex) {
             if (!!!triggeredCalled)
                 mutex.wait(1000);
@@ -79,7 +80,7 @@ public class FunctionGTCallbackTestcase {
 
         triggeredCalled = false;
 
-        arduino.sramWrite(0, 100);
+        arduino.sramWrite(0, new byte[]{11});
         synchronized (mutex) {
             if (!!!resetCalled)
                 mutex.wait(1000);

@@ -1,10 +1,9 @@
 Liberty	KEYWORD1
 begin	KEYWORD2
 update	KEYWORD2
-sramRead	KEYWORD2
-sramWrite	KEYWORD2
+sram	KEYWORD2
 invocable	KEYWORD2
 speed	KEYWORD2
-setReadTimeout	KEYWORD2
 notify	KEYWORD2
 log	KEYWORD2
+setReadTimeout	KEYWORD2
