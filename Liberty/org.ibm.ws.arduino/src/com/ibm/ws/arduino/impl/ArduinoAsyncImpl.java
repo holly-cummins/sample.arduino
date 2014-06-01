@@ -58,6 +58,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     private static final int CMD_SRAM_READ_BYTES = 8;
     private static final int CMD_SRAM_WRITE_BYTES = 9;
     private static final int CMD_INVOKE = 10;
+    private static final int CMD_EEPROM_READ_STRING = 11;
     private static final int CMD_SRAM_READ_STRING = 12;
     private static final int CMD_CALLBACK = 13;
     private static final int CMD_CLEAR_CALLBACKS = 15;
@@ -113,7 +114,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     private long timeout = 1000; // 1 seconds
     private int retries = 5;
     
-    private int debug = 0;
+    private int debug = 1;
 
     private String arduinoLibVersion;
     private String arduinoName;
@@ -124,7 +125,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
         this.possibleCommPorts = commPorts;
         this.speed = speed;
         asyncMode = true;
-        this.debug = debug;
+       // this.debug = debug;
         this.targetArduinoName = arduinoName;
     }
 
@@ -282,21 +283,52 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#eepromRead(int)
+     * @see com.ibm.ws.arduino.impl.Arduino#eepromRead(int, int)
      */
     @Override
-    public int eepromRead(int address) throws IOException {
-        return parseValueResponse(doCommand(formatCommand(CMD_EEPROM_READ, address)));
+    public byte[] eepromRead(int address, int length) throws IOException {
+        if (length == 0) return new byte[0];        
+        return parseBytesResponse(doCommand(formatCommand(CMD_EEPROM_READ, address, length)));
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#eepromWrite(int, int)
+     * @see com.ibm.ws.arduino.impl.Arduino#eepromReadString(int)
      */
     @Override
-    public void eepromWrite(int address, int value) throws IOException {
-        parseOkResponse(doCommand(formatCommand(CMD_EEPROM_WRITE, address, value)));
+    public String eepromReadString(int address) throws IOException {
+        return new String(parseBytesResponse(doCommand(formatCommand(CMD_EEPROM_READ_STRING, address))));
+    }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.ibm.ws.arduino.impl.Arduino#eepromWrite(int, byte[])
+     */
+    @Override
+    public void eepromWrite(int address, byte[] bytes) throws IOException {
+        if (bytes.length == 0) return; 
+        StringWriter sw = new StringWriter();
+        for (int i=0; i<bytes.length; i++) {
+            sw.append(String.valueOf(bytes[i]));
+            if (i < bytes.length-1) {
+                sw.append(',');
+            }
+        }
+        parseOkResponse(doCommand(CMD_EEPROM_WRITE + "," + address + "," + bytes.length + "," + sw.toString() + "\n"));
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.ibm.ws.arduino.impl.Arduino#eepromWrite(int, String)
+     */
+    @Override
+    public void eepromWrite(int address, String s) throws IOException {
+        byte[] bytes = new byte[s.length()+1];
+        System.arraycopy(s.getBytes(), 0, bytes, 0, s.length());
+        bytes[s.length()] = 0; // Arduino strings are null terminated
+        eepromWrite(address, bytes);
     }
 
     /*

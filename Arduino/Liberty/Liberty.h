@@ -45,6 +45,7 @@ class Liberty
     void doDigitalRead();
     void doDigitalWrite();
     void doEepromRead();
+    void doEepromReadString();
     void doEepromWrite();
     void doSramRead();
     void doSramWrite();

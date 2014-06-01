@@ -29,9 +29,10 @@ public interface Arduino {
 
     void analogWrite(int pin, int value) throws IOException;
 
-    int eepromRead(int address) throws IOException;
-
-    void eepromWrite(int address, int value) throws IOException;
+    byte[] eepromRead(int address, int length) throws IOException;
+    String eepromReadString(int address) throws IOException;
+    void eepromWrite(int address, byte[] value) throws IOException;
+    void eepromWrite(int address, String s) throws IOException;
 
     byte[] sramRead(int address, int length) throws IOException;
     String sramReadString(int address) throws IOException;

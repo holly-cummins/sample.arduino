@@ -83,17 +83,27 @@ public class RemoteArduino implements Arduino {
     }
 
     @Override
-    public int eepromRead(int address) throws IOException {
+    public byte[] eepromRead(int address, int length) throws IOException {
         try {
             arduino.setRemote(name);
-            return arduino.eepromRead(address);
+            return arduino.eepromRead(address, length);
         } finally {
             arduino.removeRemote();
         }
     }
 
+	@Override
+	public String eepromReadString(int address) throws IOException {
+        try {
+            arduino.setRemote(name);
+            return arduino.eepromReadString(address);
+        } finally {
+            arduino.removeRemote();
+        }
+	}
+
     @Override
-    public void eepromWrite(int address, int value) throws IOException {
+    public void eepromWrite(int address, byte[] value) throws IOException {
         try {
             arduino.setRemote(name);
             arduino.eepromWrite(address, value);
@@ -102,7 +112,17 @@ public class RemoteArduino implements Arduino {
         }
     }
 
-    @Override
+	@Override
+	public void eepromWrite(int address, String s) throws IOException {
+        try {
+            arduino.setRemote(name);
+            arduino.eepromWrite(address, s);
+        } finally {
+            arduino.removeRemote();
+        }
+	}
+
+	@Override
     public byte[] sramRead(int address, int length) throws IOException {
         try {
             arduino.setRemote(name);

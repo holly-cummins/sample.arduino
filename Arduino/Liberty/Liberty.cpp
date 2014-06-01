@@ -59,7 +59,7 @@ typedef enum CMD {
         CMD_SRAM_READ,          //8
         CMD_SRAM_WRITE,         //9
         CMD_INVOKE,             //10
-        NOT_USED_1,             //11
+        CMD_EEPROM_READ_STRING, //11
         CMD_SRAM_READ_STRING,   //12
         CMD_CALLBACK,           //13
         CMD_NOOP,               //14
@@ -164,6 +164,10 @@ void Liberty::update() {
          }
          case CMD_EEPROM_WRITE: {
             doEepromWrite();
+            break;
+         }
+         case CMD_EEPROM_READ_STRING: {
+            doEepromReadString();
             break;
          }
          case CMD_SRAM_READ: {
@@ -275,9 +279,17 @@ void Liberty::doDigitalWrite() {
 
 void Liberty::doEepromRead() {
   int address = Serial.parseInt(); 
+  int length = Serial.parseInt(); 
   if (cmdEndOk()) {
-    int value = EEPROM.read(address);
-    sendResponseValue(value);
+    Serial.print(currentCmdId);
+    Serial.print(",");
+    Serial.print(OK);
+    Serial.print(",");
+    while (length-- > 0) {
+      Serial.print(EEPROM.read(address++));
+      if (length > 0) Serial.print(",");
+    }
+    Serial.println();
   } else {
     sendResponse(ARGS_ERROR);
   } 
@@ -285,10 +297,41 @@ void Liberty::doEepromRead() {
 
 void Liberty::doEepromWrite() {
   int address = Serial.parseInt(); 
-  int value = Serial.parseInt(); 
+  int length = Serial.parseInt(); 
+
+  if (sramBytes == NULL) {
+     while (int c = Serial.read() != '\n');
+     sendResponse(NO_SRAM_ERROR);
+  } else if ((address+length) > sramSize) {
+     while (int c = Serial.read() != '\n');
+     sendResponse(SRAM_OVERFLOW_ERROR);
+  } else {
+    
+     while (length-- > 0) {
+        EEPROM.write(address++, (byte)Serial.parseInt());
+     }
+
+     if (cmdEndOk()) {
+        sendResponse(OK);
+     } else {
+        sendResponse(ARGS_ERROR);
+     } 
+  }
+}  
+
+void Liberty::doEepromReadString() {
+  int address = Serial.parseInt(); 
   if (cmdEndOk()) {
-    EEPROM.write(address, value);
-    sendResponse(OK);
+       Serial.print(currentCmdId);
+       Serial.print(",");
+       Serial.print(OK);
+       Serial.print(",");
+       // TODO: reduce number of reads
+       while (EEPROM.read(address) != 0) {
+          Serial.print(EEPROM.read(address++));
+          if (EEPROM.read(address) != 0) Serial.print(",");
+       }
+       Serial.println();
   } else {
     sendResponse(ARGS_ERROR);
   } 
@@ -325,23 +368,23 @@ void Liberty::doSramWrite() {
   int length = Serial.parseInt(); 
 
   if (sramBytes == NULL) {
-//     Serial.findUntil("\n", 1);     
+     while (int c = Serial.read() != '\n');
      sendResponse(NO_SRAM_ERROR);
-  }
-  if ((address+length) > sramSize) {
-  //   Serial.findUntil("\n", 1);     
+  } else if ((address+length) > sramSize) {
+     while (int c = Serial.read() != '\n');
      sendResponse(SRAM_OVERFLOW_ERROR);
-  }
-    
-  while (length-- > 0) {
-     sramBytes[address++] = Serial.parseInt();
-  }
-
-  if (cmdEndOk()) {
-    sendResponse(OK);
   } else {
-    sendResponse(ARGS_ERROR);
-  } 
+    
+     while (length-- > 0) {
+        sramBytes[address++] = Serial.parseInt();
+     }
+
+     if (cmdEndOk()) {
+        sendResponse(OK);
+     } else {
+        sendResponse(ARGS_ERROR);
+     } 
+  }
 }  
 
 void Liberty::doSramReadString() {
