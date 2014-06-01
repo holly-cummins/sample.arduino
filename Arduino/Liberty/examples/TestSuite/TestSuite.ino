@@ -12,10 +12,10 @@ Liberty liberty("TestNode");
 boolean ns = false;
 int nc = 0;
 unsigned long ln;
-byte bs[20];
+byte bs[50];
 
 void setup() {
-   liberty.sram(sramBytes, 20);
+   liberty.sram(bs, 50);
    liberty.invocable("foo", &foo);
    liberty.invocable("bar", &bar);
    liberty.invocable("qaz", &qaz);
