@@ -114,7 +114,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     private long timeout = 1000; // 1 seconds
     private int retries = 5;
     
-    private int debug = 1;
+    private int debug = 0;
 
     private String arduinoLibVersion;
     private String arduinoName;
@@ -125,7 +125,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
         this.possibleCommPorts = commPorts;
         this.speed = speed;
         asyncMode = true;
-       // this.debug = debug;
+        this.debug = debug;
         this.targetArduinoName = arduinoName;
     }
 
