@@ -52,6 +52,6 @@ public class EEPROMTestcase {
     public void testNullString() throws IOException {
         Arduino arduino = ArduinoService.get(TestPort.PORT);
         arduino.eepromWrite(10, "");
-        assertEquals("", arduino.sramReadString(10));
+        assertEquals("", arduino.eepromReadString(10));
     }
 }
