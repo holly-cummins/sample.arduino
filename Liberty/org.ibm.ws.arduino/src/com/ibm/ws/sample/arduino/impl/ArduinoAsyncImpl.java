@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ibm.ws.arduino.impl;
+package com.ibm.ws.sample.arduino.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,9 +41,9 @@ import purejavacomm.PortInUseException;
 import purejavacomm.SerialPort;
 import purejavacomm.UnsupportedCommOperationException;
 
-import com.ibm.ws.arduino.Arduino;
-import com.ibm.ws.arduino.Callback;
-import com.ibm.ws.arduino.Notification;
+import com.ibm.ws.sample.arduino.Arduino;
+import com.ibm.ws.sample.arduino.Callback;
+import com.ibm.ws.sample.arduino.Notification;
 
 public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Runnable {
     private final static Logger LOGGER = Logger.getLogger(ArduinoAsyncImpl.class.getName());
@@ -233,7 +233,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#pinMode(int, com.ibm.ws.arduino.impl.ArduinoImpl.Mode)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#pinMode(int, com.ibm.ws.sample.arduino.impl.ArduinoImpl.Mode)
      */
     @Override
     public void pinMode(int pin, Mode mode) throws IOException {
@@ -243,7 +243,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#digitalRead(int)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#digitalRead(int)
      */
     @Override
     public Level digitalRead(int pin) throws IOException {
@@ -253,7 +253,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#digitalWrite(int, int)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#digitalWrite(int, int)
      */
     @Override
     public void digitalWrite(int pin, Level value) throws IOException {
@@ -263,7 +263,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#analogRead(int)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#analogRead(int)
      */
     @Override
     public int analogRead(int pin) throws IOException {
@@ -273,7 +273,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#analogWrite(int, int)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#analogWrite(int, int)
      */
     @Override
     public void analogWrite(int pin, int value) throws IOException {
@@ -283,7 +283,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#eepromRead(int, int)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#eepromRead(int, int)
      */
     @Override
     public byte[] eepromRead(int address, int length) throws IOException {
@@ -294,7 +294,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#eepromReadString(int)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#eepromReadString(int)
      */
     @Override
     public String eepromReadString(int address) throws IOException {
@@ -303,7 +303,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#eepromWrite(int, byte[])
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#eepromWrite(int, byte[])
      */
     @Override
     public void eepromWrite(int address, byte[] bytes) throws IOException {
@@ -321,7 +321,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#eepromWrite(int, String)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#eepromWrite(int, String)
      */
     @Override
     public void eepromWrite(int address, String s) throws IOException {
@@ -334,7 +334,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#sramRead(int, int)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#sramRead(int, int)
      */
     @Override
     public byte[] sramRead(int address, int length) throws IOException {
@@ -345,7 +345,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#sramReadString(int)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#sramReadString(int)
      */
     @Override
     public String sramReadString(int address) throws IOException {
@@ -355,7 +355,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#sramWrite(int, byte[])
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#sramWrite(int, byte[])
      */
     @Override
     public void sramWrite(int address, byte[] bytes) throws IOException {
@@ -373,7 +373,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#sramWrite(int, String)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#sramWrite(int, String)
      */
     @Override
     public void sramWrite(int address, String s) throws IOException {
@@ -387,7 +387,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#invoke(string)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#invoke(string)
      */
     @Override
     public int invoke(String function) throws IOException {
@@ -397,7 +397,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#invoke(string)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#invoke(string)
      */
     @Override
     public int invoke(String function, int x) throws IOException {
@@ -407,7 +407,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#invoke(string)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#invoke(string)
      */
     @Override
     public int invoke(String function, int x, int y) throws IOException {
@@ -417,7 +417,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     /*
      * (non-Javadoc)
      * 
-     * @see com.ibm.ws.arduino.impl.Arduino#digitalCallback(int, int, Callback)
+     * @see com.ibm.ws.sample.arduino.impl.Arduino#digitalCallback(int, int, Callback)
      */
     @Override
     public int digitalCallback(int pin, Level state, Callback cb) throws IOException {

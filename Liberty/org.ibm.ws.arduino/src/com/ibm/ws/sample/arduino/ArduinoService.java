@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.ibm.ws.arduino;
+package com.ibm.ws.sample.arduino;
 
 import java.io.IOException;
 import java.util.List;
 
-import com.ibm.ws.arduino.impl.ServiceManager;
+import com.ibm.ws.sample.arduino.impl.ServiceManager;
 
 public class ArduinoService {
 

@@ -1,13 +1,13 @@
 package com.ibm.ws.arduino.test;
 
-import static com.ibm.ws.arduino.Arduino.Comparitor.CHGBY;
+import static com.ibm.ws.sample.arduino.Arduino.Comparitor.CHGBY;
 
 import java.io.IOException;
 
-import com.ibm.ws.arduino.Arduino;
-import com.ibm.ws.arduino.ArduinoService;
-import com.ibm.ws.arduino.Callback;
-import com.ibm.ws.arduino.Notification;
+import com.ibm.ws.sample.arduino.Arduino;
+import com.ibm.ws.sample.arduino.ArduinoService;
+import com.ibm.ws.sample.arduino.Callback;
+import com.ibm.ws.sample.arduino.Notification;
 
 public class Main {
 

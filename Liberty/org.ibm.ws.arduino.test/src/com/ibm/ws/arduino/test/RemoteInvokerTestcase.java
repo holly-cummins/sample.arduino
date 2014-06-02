@@ -1,8 +1,8 @@
 package com.ibm.ws.arduino.test;
 
-import static com.ibm.ws.arduino.Arduino.Level.HIGH;
-import static com.ibm.ws.arduino.Arduino.Level.LOW;
-import static com.ibm.ws.arduino.Arduino.Mode.OUTPUT;
+import static com.ibm.ws.sample.arduino.Arduino.Level.HIGH;
+import static com.ibm.ws.sample.arduino.Arduino.Level.LOW;
+import static com.ibm.ws.sample.arduino.Arduino.Mode.OUTPUT;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -10,8 +10,8 @@ import java.io.IOException;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.ibm.ws.arduino.Arduino;
-import com.ibm.ws.arduino.ArduinoService;
+import com.ibm.ws.sample.arduino.Arduino;
+import com.ibm.ws.sample.arduino.ArduinoService;
 
 @Ignore
 public class RemoteInvokerTestcase {

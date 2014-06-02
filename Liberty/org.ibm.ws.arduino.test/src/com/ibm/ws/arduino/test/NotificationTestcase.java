@@ -9,10 +9,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.ibm.ws.arduino.Arduino;
-import com.ibm.ws.arduino.ArduinoService;
-import com.ibm.ws.arduino.Notification;
-import com.ibm.ws.arduino.impl.ArduinoAsyncImpl;
+import com.ibm.ws.sample.arduino.Arduino;
+import com.ibm.ws.sample.arduino.ArduinoService;
+import com.ibm.ws.sample.arduino.Notification;
+import com.ibm.ws.sample.arduino.impl.ArduinoAsyncImpl;
 
 public class NotificationTestcase {
 

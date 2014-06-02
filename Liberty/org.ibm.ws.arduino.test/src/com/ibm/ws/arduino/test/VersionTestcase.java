@@ -6,9 +6,9 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.ibm.ws.arduino.Arduino;
-import com.ibm.ws.arduino.ArduinoService;
-import com.ibm.ws.arduino.impl.ArduinoAsyncImpl;
+import com.ibm.ws.sample.arduino.Arduino;
+import com.ibm.ws.sample.arduino.ArduinoService;
+import com.ibm.ws.sample.arduino.impl.ArduinoAsyncImpl;
 
 public class VersionTestcase {
 

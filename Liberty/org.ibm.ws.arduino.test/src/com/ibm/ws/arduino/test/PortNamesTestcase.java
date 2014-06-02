@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.ibm.ws.arduino.ArduinoService;
+import com.ibm.ws.sample.arduino.ArduinoService;
 
 public class PortNamesTestcase {
 

@@ -1,6 +1,6 @@
 package com.ibm.ws.arduino.test;
 
-import static com.ibm.ws.arduino.Arduino.Comparitor.CHGBY;
+import static com.ibm.ws.sample.arduino.Arduino.Comparitor.CHGBY;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -10,10 +10,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.ibm.ws.arduino.Arduino;
-import com.ibm.ws.arduino.ArduinoService;
-import com.ibm.ws.arduino.Callback;
-import com.ibm.ws.arduino.impl.ArduinoAsyncImpl;
+import com.ibm.ws.sample.arduino.Arduino;
+import com.ibm.ws.sample.arduino.ArduinoService;
+import com.ibm.ws.sample.arduino.Callback;
+import com.ibm.ws.sample.arduino.impl.ArduinoAsyncImpl;
 
 public class FunctionChgCallbackTestcase {
 

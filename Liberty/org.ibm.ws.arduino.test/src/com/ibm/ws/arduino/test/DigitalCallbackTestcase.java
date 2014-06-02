@@ -1,8 +1,8 @@
 package com.ibm.ws.arduino.test;
 
-import static com.ibm.ws.arduino.Arduino.Level.HIGH;
-import static com.ibm.ws.arduino.Arduino.Level.LOW;
-import static com.ibm.ws.arduino.Arduino.Mode.OUTPUT;
+import static com.ibm.ws.sample.arduino.Arduino.Level.HIGH;
+import static com.ibm.ws.sample.arduino.Arduino.Level.LOW;
+import static com.ibm.ws.sample.arduino.Arduino.Mode.OUTPUT;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -12,10 +12,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.ibm.ws.arduino.Arduino;
-import com.ibm.ws.arduino.ArduinoService;
-import com.ibm.ws.arduino.Callback;
-import com.ibm.ws.arduino.impl.ArduinoAsyncImpl;
+import com.ibm.ws.sample.arduino.Arduino;
+import com.ibm.ws.sample.arduino.ArduinoService;
+import com.ibm.ws.sample.arduino.Callback;
+import com.ibm.ws.sample.arduino.impl.ArduinoAsyncImpl;
 
 public class DigitalCallbackTestcase {
 

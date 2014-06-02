@@ -1,17 +1,17 @@
 package com.ibm.ws.arduino.test;
 
-import static com.ibm.ws.arduino.Arduino.Level.HIGH;
-import static com.ibm.ws.arduino.Arduino.Mode.INPUT;
-import static com.ibm.ws.arduino.Arduino.Mode.OUTPUT;
+import static com.ibm.ws.sample.arduino.Arduino.Level.HIGH;
+import static com.ibm.ws.sample.arduino.Arduino.Mode.INPUT;
+import static com.ibm.ws.sample.arduino.Arduino.Mode.OUTPUT;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import com.ibm.ws.arduino.Arduino;
-import com.ibm.ws.arduino.ArduinoService;
-import com.ibm.ws.arduino.Callback;
+import com.ibm.ws.sample.arduino.Arduino;
+import com.ibm.ws.sample.arduino.ArduinoService;
+import com.ibm.ws.sample.arduino.Callback;
 
 public class Test1 {
     public static void main(String[] args) throws Exception {

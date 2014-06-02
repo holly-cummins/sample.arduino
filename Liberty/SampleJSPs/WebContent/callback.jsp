@@ -1,9 +1,9 @@
 <%@page import="java.io.IOException"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.ibm.ws.arduino.*" %>
-<%@ page import="static com.ibm.ws.arduino.Arduino.Level.LOW" %>
-<%@ page import="static com.ibm.ws.arduino.Arduino.Level.HIGH" %>
-<%@ page import="com.ibm.ws.arduino.Arduino.Mode" %>
+<%@ page import="com.ibm.ws.sample.arduino.*" %>
+<%@ page import="static com.ibm.ws.sample.arduino.Arduino.Level.LOW" %>
+<%@ page import="static com.ibm.ws.sample.arduino.Arduino.Level.HIGH" %>
+<%@ page import="com.ibm.ws.sample.arduino.Arduino.Mode" %>
 <html>
   <body >
 

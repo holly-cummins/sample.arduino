@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ibm.ws.arduino.impl;
+package com.ibm.ws.sample.arduino.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 
 import purejavacomm.CommPortIdentifier;
 
-import com.ibm.ws.arduino.Arduino;
+import com.ibm.ws.sample.arduino.Arduino;
 
 public class ServiceManager {
     private final static Logger LOGGER = Logger.getLogger(ServiceManager.class.getName());

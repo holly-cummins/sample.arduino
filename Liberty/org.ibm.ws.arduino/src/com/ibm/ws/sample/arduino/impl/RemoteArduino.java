@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ibm.ws.arduino.impl;
+package com.ibm.ws.sample.arduino.impl;
 
 import java.io.IOException;
 
-import com.ibm.ws.arduino.Arduino;
-import com.ibm.ws.arduino.Callback;
-import com.ibm.ws.arduino.Notification;
+import com.ibm.ws.sample.arduino.Arduino;
+import com.ibm.ws.sample.arduino.Callback;
+import com.ibm.ws.sample.arduino.Notification;
 
 public class RemoteArduino implements Arduino {
 

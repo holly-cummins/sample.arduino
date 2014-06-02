@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ibm.ws.arduino;
+package com.ibm.ws.sample.arduino;
 
 /**
  * Notifications enable server-side application code to be notified about events on an Arduino

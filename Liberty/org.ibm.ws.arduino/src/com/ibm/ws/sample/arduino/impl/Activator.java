@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ibm.ws.arduino.impl;
+package com.ibm.ws.sample.arduino.impl;
 
 import java.util.Dictionary;
 import java.util.Hashtable;

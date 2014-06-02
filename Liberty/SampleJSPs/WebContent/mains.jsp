@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.ibm.ws.arduino.*;" %>
-
+<%@ page import="com.ibm.ws.sample.arduino.*" %>
 <jsp:useBean id="state" class="java.util.Date" scope="session" />
 
 <html>
