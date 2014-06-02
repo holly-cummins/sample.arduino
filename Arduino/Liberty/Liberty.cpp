@@ -298,13 +298,11 @@ void Liberty::doEepromWrite() {
   int address = Serial.parseInt(); 
   int length = Serial.parseInt(); 
 
-  if (sramBytes == NULL) {
-     while (int c = Serial.read() != '\n');
-     sendResponse(NO_SRAM_ERROR);
-  } else if ((address+length) > sramSize) {
-     while (int c = Serial.read() != '\n');
-     sendResponse(SRAM_OVERFLOW_ERROR);
-  } else {
+// TODO: How to programatically find EEPROM size?
+//  if ((address+length) > EEPROM_SIZE) {
+//     while (int c = Serial.read() != '\n');
+//     sendResponse(EEPROM_OVERFLOW_ERROR);
+//  } else {
     
      while (length-- > 0) {
         EEPROM.write(address++, (byte)Serial.parseInt());
@@ -315,7 +313,7 @@ void Liberty::doEepromWrite() {
      } else {
         sendResponse(ARGS_ERROR);
      } 
-  }
+//  }
 }  
 
 void Liberty::doEepromReadString() {
