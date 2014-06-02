@@ -24,6 +24,7 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -83,7 +84,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
         ERROR_MSGS = Collections.unmodifiableMap(ERROR_MSGS);
     }
 
-    private String possibleCommPorts;
+    private List possibleCommPorts;
     
     private CommPortIdentifier commPort;
     private SerialPort serialPort;
@@ -122,7 +123,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
 
     public ArduinoAsyncImpl(String ip, String commPorts, int speed, int debug, String arduinoName) {
         this.ip = ip;
-        this.possibleCommPorts = commPorts;
+        this.possibleCommPorts = Arrays.asList(commPorts.split(","));
         this.speed = speed;
         asyncMode = true;
         this.debug = debug;
@@ -625,7 +626,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
             this.speed = 1000000;
         }
         if (ports != null) {
-            possibleCommPorts = ports;
+            possibleCommPorts = Arrays.asList(ports.split(","));;
         }
         if (debug != null) {
             this.debug = Integer.parseInt(debug);
