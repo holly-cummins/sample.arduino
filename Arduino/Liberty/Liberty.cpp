@@ -45,7 +45,7 @@
 #define MAX_INVOKERS 10
 #define MAX_CALLBACKS 10
 
-#define VERSION "0.0.18"
+#define VERSION "0.0.19"
 
 typedef enum CMD {
         CMD_NOT_USEDNOW1,       //0
