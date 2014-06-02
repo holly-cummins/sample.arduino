@@ -15,7 +15,7 @@
         id="speed" 
         required="false" 
         type="String"    
-        default="1000000">
+        default="115200">
     </AD>
     
     <AD name="%arduino.debug" description="%arduino.debug.desc"  

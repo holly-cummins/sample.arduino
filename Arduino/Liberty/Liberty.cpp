@@ -45,7 +45,7 @@
 #define MAX_INVOKERS 10
 #define MAX_CALLBACKS 10
 
-#define VERSION "0.0.17"
+#define VERSION "0.0.18"
 
 typedef enum CMD {
         CMD_NOT_USEDNOW1,       //0
@@ -69,8 +69,7 @@ typedef enum CMD {
 
 char *arduinoName = NULL;
 
-// 1000000 seems to work fast and reliably, could drop down to 115200 if problems 
-unsigned long baud = 1000000;
+unsigned long baud = 115200;
 
 int readTimeout = 500; 
 
