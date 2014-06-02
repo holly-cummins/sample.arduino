@@ -12,7 +12,7 @@ The Liberty Arduino feature has two parts - a library for the Arduino IDE, and a
 
 ### Install the Liberty library to the Arduino IDE
 
-Download the Arduino-liberty-library zip file to your local file system from the [github release page](http://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/liberty-library-0.0.15.zip), and install it in the Arduino IDE - on the menu bar choose "Sketch -> Import Library -> Add Library..." and select library zip you just downloaded. 
+The Liberty Arduino library is named Liberty.zip, download that to your local file system from the [github release page](http://github.com/WASdev/sample.arduino.wlp/releases/download/v.0.0.15/Liberty.zip), and install it in the Arduino IDE - on the menu bar choose "Sketch -> Import Library -> Add Library..." and select library zip you just downloaded. 
 
 You will need to then restart the Arduino IDE to pick up the new library. 
 
