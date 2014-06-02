@@ -31,7 +31,7 @@ public class SRAMTestcase {
         for (int i=0; i<bs3.length; i++) {
             assertEquals(bs3[i], bs2[i]);
         }
-//        assertEquals(255, bs2[6]);
+        assertEquals(255, bs2[6] & 0xFF);
     }
 
     @Test
