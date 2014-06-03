@@ -2,7 +2,7 @@
 <%@ page import="com.ibm.ws.sample.arduino.*" %>
 <%@ page import="static com.ibm.ws.sample.arduino.Arduino.Level.LOW" %>
 <%@ page import="static com.ibm.ws.sample.arduino.Arduino.Level.HIGH" %>
-<%@ page import="com.ibm.ws.sample.arduino.Arduino.Mode" %>
+<%@ page import="static com.ibm.ws.sample.arduino.Arduino.Mode.OUTPUT" %>
 <html>
   <body >
     <h2>Liberty Arduino Demo - Helloworld</h2>
@@ -11,7 +11,7 @@
     <%
         Arduino arduino = ArduinoService.get();
         int led = 13;    
-        arduino.pinMode(led, Mode.OUTPUT);
+        arduino.pinMode(led, OUTPUT);
         if (arduino.digitalRead(led) == LOW) {
            arduino.digitalWrite(led, HIGH);
            %>Light on!<%
