@@ -6,9 +6,9 @@ The Liberty Arduino feature provides a Java API which is designed in a way which
 
 ## Getting started
 
-If you haven't already got a Liberty runtime and the Arduino IDE installed then get those first. Get Liberty from [IBM's WASdev](https://developer.ibm.com/wasdev/downloads/liberty-profile-using-non-eclipse-environments/), and the Arduino IDE from the [Arduino website](http://arduino.cc/en/main/software) 
+To use the feature you need to insatll the Liberty library into the Arduino IDE, and install the Arduino feature into the Liberty runtime. There is a helloworld style sample Liberty server that includes the Arduino feature and a simple JSP application that switches on and off an LED on an Arduino.
 
-The Liberty Arduino feature has two parts - a library for the Arduino IDE, and a feature for Liberty runtime.
+If you haven't already got a Liberty runtime and the Arduino IDE installed then get those first. Get Liberty from [IBM's WASdev](https://developer.ibm.com/wasdev/downloads/liberty-profile-using-non-eclipse-environments/), and the Arduino IDE from the [Arduino website](http://arduino.cc/en/main/software) 
 
 ### Install the Liberty library to the Arduino IDE
 
@@ -30,7 +30,7 @@ Download the sample-server jar file from the [github release page](http://github
 
 ```java -jar sample-server-0.0.19.jar```
 
-Edit the config file ```wlp\usr\servers\myServer\server.xml```, look for the ```<usr_arduino>``` element, and update the ports value (presently "COM10") to match the serial port of your Arduino.
+That creates a server named 'myServer', you will need to make one change to its config to tell it about your Arduino. Edit the config file ```wlp\usr\servers\myServer\server.xml```, look for the ```<usr_arduino>``` element, and update the ports value (presently "COM10") to match the serial port of your Arduino.
 
 ### Run the sample
 
@@ -42,9 +42,11 @@ Now on a web browser go to http://localhost:9080/helloworld
 
 You should see the helloworld page and refreshing the page should switch the Arduino LED on and off.
 
-For further documentation see the [wiki pages](http://github.com/WASdev/sample.arduino.wlp/wiki).
+For further documentation about using the Arduino feature see the [wiki pages](http://github.com/WASdev/sample.arduino.wlp/wiki).
 
 ## Legal
+
+Licensed under the Apache License v2.
 
 COPYRIGHT LICENSE: This information contains sample code provided in source code form. You may copy, modify, and distribute these sample programs in any form without payment to IBM® for the purposes of developing, using, marketing or distributing application programs conforming to the application programming interface for the operating platform for which the sample code is written. Notwithstanding anything to the contrary, IBM PROVIDES THE SAMPLE SOURCE CODE ON AN "AS IS" BASIS AND IBM DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, ANY IMPLIED WARRANTIES OR CONDITIONS OF MERCHANTABILITY, SATISFACTORY QUALITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND ANY WARRANTY OR CONDITION OF NON-INFRINGEMENT. IBM SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR OPERATION OF THE SAMPLE SOURCE CODE. IBM HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS OR MODIFICATIONS TO THE SAMPLE SOURCE CODE. 
 
