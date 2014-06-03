@@ -12,7 +12,7 @@ If you haven't already got a Liberty runtime and the Arduino IDE installed then 
 
 ### Install the Liberty library to the Arduino IDE
 
-The Liberty Arduino library is named Liberty.zip, download that to your local file system from the [github release page](http://github.com/WASdev/sample.arduino.wlp/releases/download/v0.0.19/Liberty.zip), and install it in the Arduino IDE - on the menu bar choose "Sketch -> Import Library -> Add Library..." and select library zip you just downloaded. 
+The Liberty Arduino library is named Liberty.zip, download that to your local file system from the [github release page](http://github.com/WASdev/sample.arduino.wlp/releases/download/v1.0.0/Liberty.zip), and install it in the Arduino IDE - on the menu bar choose "Sketch -> Import Library -> Add Library..." and select library zip you just downloaded. 
 
 You will need to then restart the Arduino IDE to pick up the new library. 
 
@@ -26,9 +26,9 @@ In the Arduino IDE program an Arduino with the Liberty basic example. In the Ard
 
 The Arduino feature is available on the release page as a .esa file for manual installation of the feature, however there is also a pre-configured server download that includes the feature and a helloworld style sample application, and that is simplest way to get started.
 
-Download the sample-server jar file from the [github release page](http://github.com/WASdev/sample.arduino.wlp/releases/download/v0.0.19/sample-server-0.0.19.jar), and at a command prompt in your Liberty wlp directory use the java command to install the sample server:
+Download the sample-server jar file from the [github release page](http://github.com/WASdev/sample.arduino.wlp/releases/download/v1.0.0/sample-server-1.0.0.jar), and at a command prompt in your Liberty wlp directory use the java command to install the sample server:
 
-```java -jar sample-server-0.0.19.jar```
+```java -jar sample-server-1.0.0.jar```
 
 That creates a server named 'myServer', you will need to make one change to its config to tell it about your Arduino. Edit the config file ```wlp\usr\servers\myServer\server.xml```, look for the ```<usr_arduino>``` element, and update the ports value (presently "COM10") to match the serial port of your Arduino.
 
