@@ -16,6 +16,8 @@ The Liberty Arduino library is named Liberty.zip, download that to your local fi
 
 You will need to then restart the Arduino IDE to pick up the new library. 
 
+Note: to update the library after it has already been installed you must first manually delete the old version. To do that simply delete the Liberty directory from the Arduino libraries directory. For more details see the section on Manual installation on the [Arduino Libraries page](http://arduino.cc/en/Guide/Libraries)
+
 ### Program an Arduino with a Liberty sketch
 
 In the Arduino IDE program an Arduino with the Liberty basic example. In the Arduino IDE menu bar choose "File -> Examples -> Liberty -> Basic", and then click the "Upload" button to upload the sketch to the Arduino. 
