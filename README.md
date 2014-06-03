@@ -42,9 +42,11 @@ Now on a web browser go to http://localhost:9080/helloworld
 
 You should see the helloworld page and refreshing the page should switch the Arduino LED on and off.
 
+### Learning more
+
 For further documentation about using the Arduino feature see the [wiki pages](http://github.com/WASdev/sample.arduino.wlp/wiki).
 
-## Legal
+### Legal
 
 Licensed under the Apache License v2.
 
