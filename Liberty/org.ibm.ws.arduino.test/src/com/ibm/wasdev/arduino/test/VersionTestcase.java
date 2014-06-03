@@ -15,7 +15,7 @@ public class VersionTestcase {
     @Test
     public void testVersion() throws IOException {
         Arduino arduino = ArduinoService.get(TestPort.PORT);
-        assertEquals("0.1.0", ((ArduinoAsyncImpl)arduino).getArduinoLibVersion());
+        assertEquals("1.0.0", ((ArduinoAsyncImpl)arduino).getArduinoLibVersion());
         assertEquals("TestNode", ((ArduinoAsyncImpl)arduino).getArduinoName());
     }
 
