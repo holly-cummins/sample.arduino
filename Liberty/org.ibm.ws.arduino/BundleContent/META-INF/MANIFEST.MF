@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.ibm.ws.sample.arduino
-Bundle-SymbolicName: org.ibm.ws.sample.arduino
+Bundle-SymbolicName: org.ibm.wasdev.arduino
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.ibm.ws.sample.arduino.impl.Activator
+Bundle-Activator: com.ibm.wasdev.arduino.impl.Activator
 Import-Package: org.osgi.framework;version="[1.5,2)",
  org.osgi.service.cm;version="[1.5,2)"
-Export-Package: com.ibm.ws.sample.arduino,
- com.ibm.ws.sample.arduino.impl
+Export-Package: com.ibm.wasdev.arduino,
+ com.ibm.wasdev.arduino.impl
 Bundle-ClassPath: .,
  libs/purejavacomm-0.0.21.jar,
  libs/jna-4.0.0.jar

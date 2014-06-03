@@ -5,7 +5,7 @@ Subsystem-SymbolicName: arduino-1.0;visibility:=public
 Subsystem-Version: 1.0.0.qualifier
 Subsystem-Type: osgi.subsystem.feature
 Manifest-Version: 1.0
-Subsystem-Content: com.ibm.ws.sample.arduino;version=1.0.0
-IBM-API-Package: com.ibm.ws.sample.arduino,
- com.ibm.ws.sample.arduino.impl
+Subsystem-Content: com.ibm.wasdev.arduino;version=1.0.0
+IBM-API-Package: com.ibm.wasdev.arduino,
+ com.ibm.wasdev.arduino.impl
 

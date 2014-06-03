@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.ibm.ws.sample.arduino.*" %>
-<%@ page import="static com.ibm.ws.sample.arduino.Arduino.Level.LOW" %>
-<%@ page import="static com.ibm.ws.sample.arduino.Arduino.Level.HIGH" %>
-<%@ page import="static com.ibm.ws.sample.arduino.Arduino.Mode.OUTPUT" %>
+<%@ page import="com.ibm.wasdev.arduino.*" %>
+<%@ page import="static com.ibm.wasdev.arduino.Arduino.Level.LOW" %>
+<%@ page import="static com.ibm.wasdev.arduino.Arduino.Level.HIGH" %>
+<%@ page import="static com.ibm.wasdev.arduino.Arduino.Mode.OUTPUT" %>
 <html>
   <body >
     <h2>Liberty Arduino Demo - Helloworld</h2>
-     Refresh the page to switch on and off
+     Refresh the page to switch on and off the LED on pin 13
     <p><b>
     <%
         Arduino arduino = ArduinoService.get();
