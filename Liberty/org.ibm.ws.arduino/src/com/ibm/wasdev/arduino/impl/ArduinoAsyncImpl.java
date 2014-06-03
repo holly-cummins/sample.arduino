@@ -44,7 +44,7 @@ import purejavacomm.UnsupportedCommOperationException;
 
 import com.ibm.wasdev.arduino.Arduino;
 import com.ibm.wasdev.arduino.Callback;
-import com.ibm.wasdev.arduino.Notification;
+import com.ibm.wasdev.arduino.NotificationListener;
 
 public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Runnable {
     private final static Logger LOGGER = Logger.getLogger(ArduinoAsyncImpl.class.getName());
@@ -107,7 +107,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     private final Object responseMutex = new Object();
 
     private Map<Integer, Callback> callbacks = new ConcurrentHashMap<Integer, Callback>();
-    private Map<String, List<Notification>> notifications = new ConcurrentHashMap<String, List<Notification>>();
+    private Map<String, List<NotificationListener>> notifications = new ConcurrentHashMap<String, List<NotificationListener>>();
 
     ExecutorService executor = Executors.newFixedThreadPool(5);
 
@@ -447,19 +447,19 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     }
 
     @Override
-    public void addNotification(String name, Notification n) {
-        List<Notification> ns = notifications.get(name);
+    public void addNotificationListener(String name, NotificationListener n) {
+        List<NotificationListener> ns = notifications.get(name);
         if (ns == null) {
-            ns = new ArrayList<Notification>();
+            ns = new ArrayList<NotificationListener>();
             notifications.put(name, ns);
         }
         ns.add(n);
     }
 
     @Override
-    public void removeNotification(Notification n) {
-        for (List<Notification> ns : notifications.values()) {
-            for (Notification nx : ns) { 
+    public void removeNotificationListener(NotificationListener n) {
+        for (List<NotificationListener> ns : notifications.values()) {
+            for (NotificationListener nx : ns) { 
                 if (nx.equals(n)) {
                     ns.remove(n);
                     return;
@@ -703,9 +703,9 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
     private void processCallback(int cmd, String response) {
         if (cmd == CMD_NAMED_CALLBACK_FIRED) {
             String[] strArray = response.split(",");
-            List<Notification> nList = notifications.get(strArray[1]);
+            List<NotificationListener> nList = notifications.get(strArray[1]);
             if (nList != null) {
-                for (Notification n : nList) {
+                for (NotificationListener n : nList) {
                     runCallback(cmd, strArray[2], n, Integer.parseInt(strArray[3]));
                 }
             }
@@ -727,7 +727,7 @@ public class ArduinoAsyncImpl implements Arduino, CommPortOwnershipListener, Run
                             ((Callback)cb).triggered(value);
                         } else if (type == CMD_NAMED_CALLBACK_FIRED) {
                             if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling event for notification: " + id);
-                            ((Notification)cb).event(id, value);
+                            ((NotificationListener)cb).notify(id, value);
                         } else {
                             if (LOGGER.isLoggable(java.util.logging.Level.FINE)) LOGGER.log(java.util.logging.Level.FINE, "calling callback reset() for callbackId: " + id);
                             ((Callback)cb).reset(value);

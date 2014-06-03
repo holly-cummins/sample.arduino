@@ -7,7 +7,7 @@ import java.io.IOException;
 import com.ibm.wasdev.arduino.Arduino;
 import com.ibm.wasdev.arduino.ArduinoService;
 import com.ibm.wasdev.arduino.Callback;
-import com.ibm.wasdev.arduino.Notification;
+import com.ibm.wasdev.arduino.NotificationListener;
 
 public class Main {
 
@@ -26,9 +26,9 @@ public class Main {
 //                System.out.println("reset: " + value);
 //            }});        
 //   
-        arduino.addNotification("test", new Notification() {
+        arduino.addNotificationListener("test", new NotificationListener() {
             @Override
-            public void event(String arduinoName, int value) {
+            public void notify(String arduinoName, int value) {
                 System.out.println("Event 'test' from: " + arduinoName + " value: " + value);
             }});
         

@@ -19,7 +19,7 @@ import java.io.IOException;
 
 import com.ibm.wasdev.arduino.Arduino;
 import com.ibm.wasdev.arduino.Callback;
-import com.ibm.wasdev.arduino.Notification;
+import com.ibm.wasdev.arduino.NotificationListener;
 
 public class RemoteArduino implements Arduino {
 
@@ -239,20 +239,20 @@ public class RemoteArduino implements Arduino {
     }
 
     @Override
-    public void addNotification(String name, Notification n) {
+    public void addNotificationListener(String name, NotificationListener n) {
         try {
             arduino.setRemote(name);
-            arduino.addNotification(name, n);
+            arduino.addNotificationListener(name, n);
         } finally {
             arduino.removeRemote();
         }
     }
 
     @Override
-    public void removeNotification(Notification n) {
+    public void removeNotificationListener(NotificationListener n) {
         try {
             arduino.setRemote(name);
-            arduino.removeNotification(n);
+            arduino.removeNotificationListener(n);
         } finally {
             arduino.removeRemote();
         }

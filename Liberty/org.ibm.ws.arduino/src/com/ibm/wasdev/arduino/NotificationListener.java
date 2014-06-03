@@ -18,7 +18,7 @@ package com.ibm.wasdev.arduino;
 /**
  * Notifications enable server-side application code to be notified about events on an Arduino
  */
-public interface Notification {
+public interface NotificationListener {
 
     /**
      * Called when the Arduino signals an event has occured
@@ -26,6 +26,6 @@ public interface Notification {
      * @param arduinoName  the name of the Arduino on which the event occured
      * @param value  the value the event
      */
-    void event(String arduinoName, int value);
+    void notify(String arduinoName, int value);
 
 }

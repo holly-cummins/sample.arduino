@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.ibm.wasdev.arduino.Arduino;
 import com.ibm.wasdev.arduino.ArduinoService;
-import com.ibm.wasdev.arduino.Notification;
+import com.ibm.wasdev.arduino.NotificationListener;
 import com.ibm.wasdev.arduino.impl.ArduinoAsyncImpl;
 
 public class NotificationTestcase {
@@ -35,10 +35,10 @@ public class NotificationTestcase {
 
         arduino.invoke("foo");
 
-        arduino.addNotification("testN1", new Notification() {
+        arduino.addNotificationListener("testN1", new NotificationListener() {
             @Override
-            public void event(String arduinoName, int value) {
-                System.out.println("event " + arduinoName + " " + value);
+            public void notify(String arduinoName, int value) {
+                System.out.println("notify " + arduinoName + " " + value);
                 assertEquals("TestNode", arduinoName);
                 notificationCalled++;
             }
