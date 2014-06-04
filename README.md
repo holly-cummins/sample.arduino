@@ -6,13 +6,13 @@ The Liberty Arduino feature provides a Java API which is designed in a way which
 
 ## Getting started
 
-To use the feature you need to insatll the Liberty library into the Arduino IDE, and install the Arduino feature into the Liberty runtime. There is a helloworld style sample Liberty server that includes the Arduino feature and a simple JSP application that switches on and off an LED on an Arduino.
+To use the feature you need to install the Liberty library into the Arduino IDE, and install the Arduino feature into the Liberty runtime. There is a *Hello, world* style sample Liberty server that includes the Arduino feature and a simple JSP application that switches on and off an LED on an Arduino.
 
 If you haven't already got a Liberty runtime and the Arduino IDE installed then get those first. Get Liberty from [IBM's WASdev](https://developer.ibm.com/wasdev/downloads/liberty-profile-using-non-eclipse-environments/), and the Arduino IDE from the [Arduino website](http://arduino.cc/en/main/software) 
 
 ### Install the Liberty library to the Arduino IDE
 
-The Liberty Arduino library is named Liberty.zip, download that to your local file system from the [github release page](http://github.com/WASdev/sample.arduino.wlp/releases/download/v1.0.0/Liberty.zip), and install it in the Arduino IDE - on the menu bar choose "Sketch -> Import Library -> Add Library..." and select library zip you just downloaded. 
+The Liberty Arduino library is named Liberty.zip, download that to your local file system from the [github release page](http://github.com/WASdev/sample.arduino.wlp/releases/download/v1.0.0/Liberty.zip), and install it in the Arduino IDE - on the menu bar choose **Sketch > Import Library > Add Library...** and select the library zip you just downloaded. 
 
 You will need to then restart the Arduino IDE to pick up the new library. 
 
@@ -20,7 +20,7 @@ Note: to update the library after it has already been installed you must first m
 
 ### Program an Arduino with a Liberty sketch
 
-In the Arduino IDE program an Arduino with the Liberty basic example. In the Arduino IDE menu bar choose "File -> Examples -> Liberty -> Basic", and then click the "Upload" button to upload the sketch to the Arduino. 
+In the Arduino IDE program an Arduino with the Liberty basic example. In the Arduino IDE menu bar choose **File > Examples > Liberty > Basic**, and then click the **Upload** button to upload the sketch to the Arduino. 
 
 ### Install the Arduino Feature in Liberty
 
@@ -52,7 +52,7 @@ For any help with using this Arduino feature you can ask questions on [dW Answer
 
 Licensed under the Apache License v2.
 
-COPYRIGHT LICENSE: This information contains sample code provided in source code form. You may copy, modify, and distribute these sample programs in any form without payment to IBM® for the purposes of developing, using, marketing or distributing application programs conforming to the application programming interface for the operating platform for which the sample code is written. Notwithstanding anything to the contrary, IBM PROVIDES THE SAMPLE SOURCE CODE ON AN "AS IS" BASIS AND IBM DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, ANY IMPLIED WARRANTIES OR CONDITIONS OF MERCHANTABILITY, SATISFACTORY QUALITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND ANY WARRANTY OR CONDITION OF NON-INFRINGEMENT. IBM SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR OPERATION OF THE SAMPLE SOURCE CODE. IBM HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS OR MODIFICATIONS TO THE SAMPLE SOURCE CODE. 
+COPYRIGHT LICENSE: This information contains sample code provided in source code form. You may copy, modify, and distribute these sample programs in any form without payment to IBMï¿½ for the purposes of developing, using, marketing or distributing application programs conforming to the application programming interface for the operating platform for which the sample code is written. Notwithstanding anything to the contrary, IBM PROVIDES THE SAMPLE SOURCE CODE ON AN "AS IS" BASIS AND IBM DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, ANY IMPLIED WARRANTIES OR CONDITIONS OF MERCHANTABILITY, SATISFACTORY QUALITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND ANY WARRANTY OR CONDITION OF NON-INFRINGEMENT. IBM SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR OPERATION OF THE SAMPLE SOURCE CODE. IBM HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS OR MODIFICATIONS TO THE SAMPLE SOURCE CODE. 
 
 (C) Copyright IBM Corp. 2014
  
