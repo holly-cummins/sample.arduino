@@ -46,6 +46,8 @@ You should see the helloworld page and refreshing the page should switch the Ard
 
 For further documentation about using the Arduino feature see the [wiki pages](http://github.com/WASdev/sample.arduino.wlp/wiki).
 
+For any help with using this Arduino feature you can ask questions on [dW Answers](https://developer.ibm.com/answers/questions/) or open an [Issue](https://github.com/WASdev/sample.arduino.wlp/issues)
+
 ### Legal
 
 Licensed under the Apache License v2.
