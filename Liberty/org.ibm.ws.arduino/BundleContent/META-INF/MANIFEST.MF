@@ -11,5 +11,4 @@ Export-Package: com.ibm.wasdev.arduino,
 Bundle-ClassPath: .,
  libs/purejavacomm-0.0.21.jar,
  libs/jna-4.0.0.jar
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 
